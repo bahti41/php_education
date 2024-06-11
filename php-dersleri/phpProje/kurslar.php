@@ -13,16 +13,18 @@ mysqli_close($baglanti);
 <div class="container my-3">
     <div class="row">
         <div class="col-3">
+
             <?php include("./partials/_kategoriler.php") ?>
+
         </div>
         <div class="col-9">
             <?php foreach ($kurslar as $kurs) : ?>
-                <?php if ($kurs["onay"]) : ?>
+                <?php if ($kurs["onay"] and $kurs["anasayfa"]) : ?>
                     <?php include("./partials/_kurs.php") ?>
-
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+
 <?php include("./partials/_footer.php") ?>
