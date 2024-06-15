@@ -3,8 +3,13 @@
 // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36Failed to connect to localhost port 3000: Connection refused
 // echo $_SERVER["HTTP_USER_AGENT"]; Tarayıcı bilgimi service yazıyor.Bot kullanırken bu şekil bulunuyor.
 
-$oturum = curl_init("http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=normal"); // sadece deneme icin bir olacalde calıştırıyorum.
-
+$oturum = curl_init("http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayitlekle"); // sadece deneme icin bir olacalde calıştırıyorum.
+$elemanlar = array(
+    "ad" => "bot",
+    "soyad" => "Bag",
+    "meslek" => "Aoutomatick",
+    "gonder" => "EKLE"
+);
 // $option = array(
 //     CURLOPT_USERAGENT => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36Failed to connect to localhost port 3000: Connection refused",
 //     CURLOPT_REFERER => "http://www.google.com",
@@ -29,27 +34,31 @@ curl_setopt($oturum, CURLOPT_CONNECTTIMEOUT, 10); // Uygulamaya ilk baglanmak ic
 
 curl_setopt($oturum, CURLOPT_SSL_VERIFYPEER, false); // Istek atılan sitenin SSL sertifika dogrulama mekanizması varsa bot icin bu bilgiyi false yapıyoruz.
 
+curl_setopt($oturum, CURLOPT_POST, true); // Post işlemi yollamak icin 
+
+curl_setopt($oturum, CURLOPT_POSTFIELDS, $elemanlar); // Post işlemi icin gereken name ve Value Degerleri yollamak icin
+
+curl_setopt($oturum, CURLOPT_FOLLOWLOCATION, true); // Atılan isteklerde herhangibir yönlendirme var isle bu kod istek ayılan sayfanın headerını inceler
 
 
 $gelenveri = curl_exec($oturum); // Atılan isteye gelen degeri ekrana yazdırır.degişkene atanması CURLOPT_RETURNTRANSFER true iken velen verilere işlem yapmamızı saglar
 $sonuc = curl_getinfo($oturum); // oturum ile 
 
-echo "<pre>";
-// print_r(curl_getinfo($oturum)); //
+// echo "<pre>";
+// print_r(curl_getinfo($oturum));
 
-// if ($sonuc["http_code"] != 200) :
-//     echo curl_errno($oturum); hata kodunun numarası
-//     echo curl_error($oturum); hata kodunun stringi
+if ($sonuc["http_code"] != 200) :
+    //     echo curl_errno($oturum); hata kodunun numarası
+    echo curl_error($oturum); //hata kodunun stringi
 
-// endif;
+endif;
 
-//echo $gelenveri; // Atılan isteye gelen degeri ekrana yazdırır. degişkene atanması CURLOPT_RETURNTRANSFER true iken velen verilere işlem yapmamızı saglar
+
 
 curl_close($oturum);
 
+echo $gelenveri; // Atılan isteye gelen degeri ekrana yazdırır. degişkene atanması CURLOPT_RETURNTRANSFER true iken velen verilere işlem yapmamızı saglar
+
 // $coz = json_decode($gelenveri, true);
-$coz = json_decode($gelenveri, false); //Nesne olarak erişim
-
-echo $coz->soyadi;
-
-// echo $coz["ad"];
+// $coz = json_decode($gelenveri, false); //Nesne olarak erişim
+// echo $coz["soyad"];

@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS `uyeler` (
 --
 
 INSERT INTO `uyeler` (`id`, `ad`, `soyad`, `meslek`) VALUES
-(4, 'bahtiyar', 'Sönmez', 'Development'),
-(3, 'Yasim', 'Sönmez', 'Gemi inşa'),
+(5, 'bahtiyar', 'Sönmez', 'Development'),
+(1, 'Yasim', 'Sönmez', 'Gemi inşa'),
 (2, 'Talut', 'Sönmez', 'Bebek'),
-(1, 'Melike', 'Sönmez', 'Beden İşçisi');
+(3, 'Melike', 'Sönmez', 'Beden İşçisi');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

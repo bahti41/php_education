@@ -44,9 +44,6 @@
           <a class="nav-link js-scroll-trigger" target="_blank" href="islemler.php?islem=normal">Normal Veri</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" target="_blank" href="islemler.php?islem=kayitlar">Db işlemleri</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link js-scroll-trigger" target="_blank" href="islemler.php?islem=oturum">Oturum</a>
         </li>
         <li class="nav-item">
@@ -65,49 +62,123 @@
 
     </div>
 
-    <div class="row mt-5 pr-0">
-      <div class="col-lg-5 bg-danger bg-light mx-auto border border-dark">
-        <div class="row">
-          <div class="col-lg-12">
 
-            <h4> <a href="#" class="btn btn-success btn-sm">Ekle</a> ÜYELER</h4>
+    <?php
+    switch (@$_GET["hareket"]):
+      case 'ekle':
+
+    ?>
+
+        <div class="row text-dark ">
+          <div class="col-lg-3  bg-light mx-auto border border-dark table-borderless">
+            <div class="row">
+              <div class="col-lg-12">
+                <h4>KİŞİ EKLE</h4>
+              </div>
+
+              <div class="col-lg-6 p-2 mt-2 ">Ad</div>
+              <div class="col-lg-6 p-2">
+                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayitlekle" method="post">
+                  <input type="text" name="ad" class="form-control">
+              </div>
+              <div class="col-lg-6 p-2 mt-2">Soyad</div>
+              <div class="col-lg-6 p-2"><input type="text" name="soyad" class="form-control"></div>
+              <div class="col-lg-6 p-2 mt-2">Meslek</div>
+              <div class="col-lg-6 p-2"><input type="text" name="meslek" class="form-control"></div>
+              <div class="col-lg-12 p-2 mt-2"><input type="submit" name="gonder" value="EKLE" class="btn btn-success"></form>
+              </div>
+
+            </div>
+
           </div>
-          <div class="col-lg-3 bg-dark text-white font-weight-bold">Ad</div>
-          <div class="col-lg-3 bg-dark text-white font-weight-bold">Soyad</div>
-          <div class="col-lg-3 bg-dark text-white font-weight-bold">Meslek</div>
-          <div class="col-lg-3 bg-dark text-white font-weight-bold">İşlem</div>
+        </div>
+
+      <?php
+        break;
+
+      case 'guncelle':
+        $uyeninid = $_GET["uyeid"];
+        $uyeal = $baglantı->prepare("select * from uyeler where id=" . $uyeninid);
+        $uyeal->execute();
+        $uyeninBilgileri = $uyeal->fetch();
+      ?>
+
+        <div class="row text-dark ">
+          <div class="col-lg-3  bg-light mx-auto border border-dark table-borderless">
+            <div class="row">
+              <div class="col-lg-12">
+                <h4>KİŞİ GÜNCELLE</h4>
+              </div>
+
+              <div class="col-lg-6 p-2 mt-2 ">Ad</div>
+              <div class="col-lg-6 p-2">
+                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayitguncelle" method="post">
+                  <input type="text" name="ad" class="form-control" value="<?php echo $uyeninBilgileri["ad"]; ?>">
+              </div>
+              <div class="col-lg-6 p-2 mt-2">Soyad</div>
+              <div class="col-lg-6 p-2"><input type="text" name="soyad" class="form-control" value="<?php echo $uyeninBilgileri["soyad"]; ?>"></div>
+              <div class="col-lg-6 p-2 mt-2">Meslek</div>
+              <div class="col-lg-6 p-2"><input type="text" name="meslek" class="form-control" value="<?php echo $uyeninBilgileri["meslek"]; ?>"></div>
+              <div class="col-lg-12 p-2 mt-2">
+                <input type="submit" name="gonder" value="GÜNCELLE" class="btn btn-success">
+                <input type="hidden" name="uyeid" value=" <?php echo $uyeninBilgileri["id"]; ?>">
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      <?php
+        break;
+
+      default:
+      ?>
+        <div class="row mt-5 pr-0 text-dark">
+          <div class="col-lg-5 bg-danger bg-light mx-auto border border-dark">
+            <div class="row">
+              <div class="col-lg-12">
+
+                <h4> <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/index.php?hareket=ekle" class="btn btn-success btn-sm">Ekle</a> ÜYELER</h4>
+              </div>
+              <div class="col-lg-3 bg-dark text-white font-weight-bold">Ad</div>
+              <div class="col-lg-3 bg-dark text-white font-weight-bold">Soyad</div>
+              <div class="col-lg-3 bg-dark text-white font-weight-bold">Meslek</div>
+              <div class="col-lg-3 bg-dark text-white font-weight-bold">İşlem</div>
 
 
-          <?php
-          $uyeler = $baglantı->prepare("select * from uyeler");
-          $uyeler->execute();
-          while ($sonucum = $uyeler->fetch(PDO::FETCH_ASSOC)) :
+              <?php
+              $uyeler = $baglantı->prepare("select * from uyeler");
+              $uyeler->execute();
+              while ($sonucum = $uyeler->fetch(PDO::FETCH_ASSOC)) :
 
-            echo
-            '<div class="col-lg-3 p-2">' . $sonucum["ad"] . '</div>
+                echo
+                '<div class="col-lg-3 p-2">' . $sonucum["ad"] . '</div>
             <div class="col-lg-2 p-2">' . $sonucum["soyad"] . '</div>
             <div class="col-lg-3 p-2">' . $sonucum["meslek"] . '</div>
             <div class="col-lg-4 p-2">
-            <a href="#" class="btn btn-success btn-sm">Güncelle</a>
-            <a href="#" class="btn btn-danger btn-sm">Sil</a>
+            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/index.php?hareket=guncelle&uyeid=' . $sonucum["id"] . '" class="btn btn-success btn-sm">Güncelle</a>
+            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayıtsil&uyeid=' . $sonucum["id"] . '" class="btn btn-danger btn-sm">Sil</a>
             </div>';
 
-          endwhile;
-          ?>
+              endwhile;
+              ?>
 
+            </div>
+
+          </div>
         </div>
-      </div>
-    </div>
 
+    <?php
 
-
-
+    endswitch;
+    ?>
 
 
 
 
   </div>
-
 
 </body>
 
