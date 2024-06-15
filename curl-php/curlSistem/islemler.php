@@ -1,37 +1,41 @@
 <?php
+include_once("baglan.php");
 
 $uye = array(
-    "id" => 1,
-    "ad" => "Bahtiyar",
-    "soyadi" => "Sonmez"
+	"id" => 1,
+	"ad" => "olcay",
+	"soyad" => "php"
 );
+
+
 
 switch (@$_GET["islem"]):
 
 
-    case "normal":
+	case "normal":
 
-        echo json_encode($uye);
+		echo json_encode($uye);
 
-        break;
 
-    case "kayitlar":
+		break;
 
-        echo 'veritabanı kayıtları ve işlemleri olacak';
+	case "kayitlar":
 
-        break;
+		echo 'veritabanı kayıtları ve işlemleri olacak';
 
-    case "oturum":
+		break;
 
-        echo 'Oturum İşlemleri olacak';
+	case "oturum":
 
-        break;
+		echo 'Oturum İşlemleri olacak';
 
-    case "dosyalar":
+		break;
 
-        echo 'Dosyalar ile ilgili bilgi olacak';
+	case "dosyalar":
 
-        break;
+		echo 'Dosyalar ile ilgili bilgi olacak';
+
+		break;
 
 
 
