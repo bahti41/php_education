@@ -78,7 +78,7 @@
 
               <div class="col-lg-6 p-2 mt-2 ">Ad</div>
               <div class="col-lg-6 p-2">
-                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayitlekle" method="post">
+                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/islemler.php?islem=kayitlekle" method="post">
                   <input type="text" name="ad" class="form-control">
               </div>
               <div class="col-lg-6 p-2 mt-2">Soyad</div>
@@ -112,7 +112,7 @@
 
               <div class="col-lg-6 p-2 mt-2 ">Ad</div>
               <div class="col-lg-6 p-2">
-                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayitguncelle" method="post">
+                <form action="http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/islemler.php?islem=kayitguncelle" method="post">
                   <input type="text" name="ad" class="form-control" value="<?php echo $uyeninBilgileri["ad"]; ?>">
               </div>
               <div class="col-lg-6 p-2 mt-2">Soyad</div>
@@ -140,7 +140,7 @@
             <div class="row">
               <div class="col-lg-12">
 
-                <h4> <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/index.php?hareket=ekle" class="btn btn-success btn-sm">Ekle</a> ÜYELER</h4>
+                <h4> <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/index.php?hareket=ekle" class="btn btn-success btn-sm">Ekle</a> ÜYELER</h4>
               </div>
               <div class="col-lg-3 bg-dark text-white font-weight-bold">Ad</div>
               <div class="col-lg-3 bg-dark text-white font-weight-bold">Soyad</div>
@@ -158,8 +158,8 @@
             <div class="col-lg-2 p-2">' . $sonucum["soyad"] . '</div>
             <div class="col-lg-3 p-2">' . $sonucum["meslek"] . '</div>
             <div class="col-lg-4 p-2">
-            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/index.php?hareket=guncelle&uyeid=' . $sonucum["id"] . '" class="btn btn-success btn-sm">Güncelle</a>
-            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/islemler.php?islem=kayıtsil&uyeid=' . $sonucum["id"] . '" class="btn btn-danger btn-sm">Sil</a>
+            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/index.php?hareket=guncelle&uyeid=' . $sonucum["id"] . '" class="btn btn-success btn-sm">Güncelle</a>
+            <a href="http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/islemler.php?islem=kayıtsil&uyeid=' . $sonucum["id"] . '" class="btn btn-danger btn-sm">Sil</a>
             </div>';
 
               endwhile;

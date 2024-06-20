@@ -29,10 +29,10 @@ d<?php
 
 			if ($ekle->execute()) :
 				echo 'Ekleme Başarılı';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			else :
 				echo 'Ekleme Başarısız';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			endif;
 
 			break;
@@ -48,10 +48,10 @@ d<?php
 
 			if ($guncelle->execute()) :
 				echo ' Guncelle Başarılı ';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			else :
 				echo ' Guncelle Başarısız ';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			endif;
 
 			break;
@@ -61,10 +61,10 @@ d<?php
 
 			if ($sil->execute()) :
 				echo ' Silme Başarılı ';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			else :
 				echo ' Silme Başarısız ';
-				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem");
+				header("Location:http://localhost/php-dersleri/php_Udmey/curlSistem/curl-sistem/");
 			endif;
 			break;
 
