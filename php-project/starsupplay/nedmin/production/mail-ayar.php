@@ -46,46 +46,45 @@ include 'header.php';
                         <form action="../netting/islem.php" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
 
-                            <!-- SİTE BAŞLIGI     -->
+                            <!-- SMTPHOST AYAR    -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Başlığı<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">SMTP-host <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_title" value="<?php echo $ayarcek['ayar_title'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_smtphost" value="<?php echo $ayarcek['ayar_smtphost'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE ACIKLAMASI     -->
+                            <!-- SMTP USER    -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Acıklaması<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">SMTP Kullanıcı<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_desc" value="<?php echo $ayarcek['ayar_desc'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_smtpuser" value="<?php echo $ayarcek['ayar_smtpuser'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE KEYWORDS     -->
+                            <!-- SMTP PAROLA   -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Anahtar Kelime<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">SMTP Parola<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_keywords" value="<?php echo $ayarcek['ayar_keywords'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="password" id="first-name" name="ayar_smtppassword" value="<?php echo $ayarcek['ayar_smtppassword'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE AUTHOTENTİCATİON     -->
+                            <!-- SMTP PORT     -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Yazar<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">SMTP Port<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_author" value="<?php echo $ayarcek['ayar_author'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_smtpport" value="<?php echo $ayarcek['ayar_smtpport'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-
 
 
 
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align: right;">
-                                    <button type="submit" name="genelayarkaydet" class="btn btn-primary">Güncelle</button>
+                                    <button type="submit" name="mailayarkaydet" class="btn btn-primary">Güncelle</button>
 
                                 </div>
                             </div>

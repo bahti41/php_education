@@ -1,5 +1,5 @@
 <?php
-// header alanı dosyaya ayrıldı.
+
 include 'header.php';
 
 ?>

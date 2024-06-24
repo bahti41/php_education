@@ -46,36 +46,36 @@ include 'header.php';
                         <form action="../netting/islem.php" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
 
-                            <!-- SİTE BAŞLIGI     -->
+                            <!-- FECABOOK AYAR     -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Başlığı<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Facebook<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_title" value="<?php echo $ayarcek['ayar_title'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_facebook" value="<?php echo $ayarcek['ayar_facebook'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE ACIKLAMASI     -->
+                            <!-- TİWİTTER AYAR    -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Acıklaması<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tiwitter<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_desc" value="<?php echo $ayarcek['ayar_desc'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_tiwitter" value="<?php echo $ayarcek['ayar_tiwitter'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE KEYWORDS     -->
+                            <!-- GİTHUB AYAR   -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Anahtar Kelime<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Github<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_keywords" value="<?php echo $ayarcek['ayar_keywords'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_github" value="<?php echo $ayarcek['ayar_github'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE AUTHOTENTİCATİON     -->
+                            <!-- YOUTUBE AYAR   -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Yazar<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">YOUTUBE<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_author" value="<?php echo $ayarcek['ayar_author'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_youtube" value="<?php echo $ayarcek['ayar_youtube'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
@@ -85,7 +85,7 @@ include 'header.php';
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align: right;">
-                                    <button type="submit" name="genelayarkaydet" class="btn btn-primary">Güncelle</button>
+                                    <button type="submit" name="sosyalayarkaydet" class="btn btn-primary">Güncelle</button>
 
                                 </div>
                             </div>

@@ -1,6 +1,12 @@
 <?php
 
 include 'header.php';
+// BELİRLİ VERİLERİ SECMEK İCİN
+$hakkimizdasor = $db->prepare("SELECT * FROM hakkimizda where hakkimizda_id=:id");
+$hakkimizdasor->execute(array(
+    'id' => 0
+));
+$hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
 
 ?>
 <!-- page content -->
@@ -11,7 +17,7 @@ include 'header.php';
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Genel Ayarlar
+                        <h2>Hakkımızda Ayarlar
                             <small>
                                 <?php
                                 if (isset($_GET['durum'])) {
@@ -46,36 +52,44 @@ include 'header.php';
                         <form action="../netting/islem.php" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
 
-                            <!-- SİTE BAŞLIGI     -->
+                            <!-- HAKKIMIZDA BAŞLIGI     -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Başlığı<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Başlığı<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_title" value="<?php echo $ayarcek['ayar_title'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="hakkimizda_baslik" value="<?php echo $hakkimizdacek['hakkimizda_baslik'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE ACIKLAMASI     -->
+                            <!-- HAKKIMIZDA İCERİK     -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Acıklaması<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">İcerik<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_desc" value="<?php echo $ayarcek['ayar_desc'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="hakkimizda_icerik" value="<?php echo $hakkimizdacek['hakkimizda_icerik'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE KEYWORDS     -->
+                            <!-- HAKKIMIZDA VİDEO    -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Anahtar Kelime<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Video<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_keywords" value="<?php echo $ayarcek['ayar_keywords'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="hakkimizda_video" value="<?php echo $hakkimizdacek['hakkimizda_video'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- SİTE AUTHOTENTİCATİON     -->
+                            <!-- HAKKIMIZDA VİZYON   -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Site Yazar<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Vizyon<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_author" value="<?php echo $ayarcek['ayar_author'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="hakkimizda_vizyon" value="<?php echo $hakkimizdacek['hakkimizda_vizyon'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+                            <!-- HAKKIMIZDA MİSYON    -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Misyon<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" id="first-name" name="hakkimizda_misyon" value="<?php echo $hakkimizdacek['hakkimizda_misyon'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
@@ -85,7 +99,7 @@ include 'header.php';
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align: right;">
-                                    <button type="submit" name="genelayarkaydet" class="btn btn-primary">Güncelle</button>
+                                    <button type="submit" name="hakkimizdakaydet" class="btn btn-primary">Güncelle</button>
 
                                 </div>
                             </div>
