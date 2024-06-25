@@ -9,6 +9,9 @@ $hakkimizdasor->execute(array(
 $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
 
 ?>
+
+
+
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -60,14 +63,7 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                                     <input type="text" id="first-name" name="hakkimizda_baslik" value="<?php echo $hakkimizdacek['hakkimizda_baslik'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-                            <!-- HAKKIMIZDA İCERİK     -->
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">İcerik<span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="hakkimizda_icerik" value="<?php echo $hakkimizdacek['hakkimizda_icerik'] ?>" required="required" class="form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
+
                             <!-- HAKKIMIZDA VİDEO    -->
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Video<span class="required">*</span>
@@ -76,6 +72,7 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                                     <input type="text" id="first-name" name="hakkimizda_video" value="<?php echo $hakkimizdacek['hakkimizda_video'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
+
                             <!-- HAKKIMIZDA VİZYON   -->
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Vizyon<span class="required">*</span>
@@ -93,12 +90,23 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                                 </div>
                             </div>
 
+                            <!-- HAKKIMIZDA İCERİK     -->
+                            <!-- CKEDİTOR (HAKKIMIZDA) -->
+                            <div class="from-group py-3">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">İçerik<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea class="ckeditor" id="editor1" name="hakkimizda_icerik"><?php echo $hakkimizdacek['hakkimizda_icerik'] ?></textarea>
+                                </div>
+                            </div>
+                            <!-- CKEDİTOR BİTİŞ (HAKKIMIZDA) -->
+
 
 
 
                             <div class="ln_solid"></div>
                             <div class="form-group">
-                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align: right;">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 " style="text-align: right; padding: 20px">
                                     <button type="submit" name="hakkimizdakaydet" class="btn btn-primary">Güncelle</button>
 
                                 </div>
@@ -119,3 +127,78 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
 include 'footer.php';
 
 ?>
+
+
+
+
+
+
+
+
+<!--CKEDİTOR 4 İCİN -->
+<script type="text/javascript">
+    CKEDITOR.replace('editor1', {
+        filebrowserBrowseUrl: 'ckfinder/ckfinder.html',
+        filebrowserImageBrowseUrl: 'ckfinder/ckfinder.html?type=Images',
+        filebrowserFlashBrowseUrl: 'ckfinder/ckfinder.html?type=flash',
+        filebrowserUploadUrl: 'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+        filebrowserImageUploadUrl: 'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+        filebrowserFlashUploadUrl: 'ckfinder/core/connector/php/conncetor.php?command=QuickUpload&type=Flash',
+        forcePasteAsPlainText: true
+    });
+</script>
+
+<!--CKEDİTOR 5 İCİN -->
+<!-- <script>
+    ClassicEditor
+        .create(document.querySelector('#editor1'), {
+            ckfinder: {
+                uploadUrl: 'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                options: {
+                    resourceType: 'Images'
+                }
+            },
+            toolbar: [
+                'ckfinder', 'imageUpload', '|', 'heading', '|', 'bold', 'italic', '|', 'undo', 'redo'
+            ]
+        })
+        .then(editor => {
+            editor.ui.view.editable.element.style.height = '500px';
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script> -->
+
+<!--CKEDİTOR 5 İCİN COK TOOLSLU-->
+<!-- <script>
+    ClassicEditor
+        .create(document.querySelector('#editor1'), {
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+                    'undo', 'redo', '|',
+                    'imageUpload', 'imageInsert'
+                ]
+            },
+            image: {
+                toolbar: [
+                    'imageTextAlternative', 'toggleImageCaption', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'
+                ],
+                insert: {
+                    integrations: ['insertImageViaUrl']
+                }
+            },
+            simpleUpload: {
+                uploadUrl: 'path/to/your/upload/script'
+            }
+        })
+        .then(editor => {
+            editor.ui.view.editable.element.style.height = '500px';
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script> -->

@@ -1,10 +1,56 @@
 <?php
+ob_start();
+session_start();
+
 include 'baglan.php';
-// tablo güncelleme işlem kodları..
+include '../production/fonksiyon.php';
+
+// GİRİŞ CIKIŞ İŞLEMLERİ
+// AUTHOTANTICATION LOGİN
+if (isset($_POST['admingiris'])) {
+
+    $kullanici_mail = $_POST['kullanici_mail'];
+    $kullanici_password = md5($_POST['kullanici_password']);
+
+    $kullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_mail=:mail and kullanici_password=:passw and kullanici_yetki=:yetki");
+    $kullanicisor->execute(array(
+        'mail' => $kullanici_mail,
+        'passw' => $kullanici_password,
+        'yetki' => 5
+    ));
+
+    $say = $kullanicisor->rowCount();
+
+    if ($say == 1) {
+        $_SESSION['kullanici_mail'] = $kullanici_mail;
+        header("Location:../production/index.php");
+        exit;
+    } else {
+        header("Location:../production/login.php?durum=no");
+        exit;
+    }
+}
+
+
+// TABLO SİLME İŞLEMLERİ
+// KULLANICI İŞLEMLERİ SİLME
+if ($_GET['kullanicisil'] == "ok") {
+    $sil = $db->prepare("DELETE from kullanici where kullanici_id=:id");
+    $kontrol = $sil->execute(array(
+        'id' => $_GET['kullanici_id']
+    ));
+    if ($kontrol) {
+        header("Location:../production/kullanici.php?sil=ok");
+    } else {
+        header("Location:../production/kullanici.php?sil=no");
+    }
+}
+
+
+// TABLO GÜNCELLEME İŞLEMLERİ
 
 // GENEL AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['genelayarkaydet'])) {
-
 
     $ayarkaydet = $db->prepare("UPDATE ayar SET
         ayar_title=:ayar_title,
@@ -26,6 +72,40 @@ if (isset($_POST['genelayarkaydet'])) {
         header("Location:../production/genel-ayar.php?durum=no");
     }
 }
+
+
+// MENÜ AYAR İŞLEMLERİ GÜNCELLEME
+if (isset($_POST['menuayarkaydet'])) {
+
+    $menu_id = $POST['menu_id'];
+
+    $menu_seourl = seo($_POST['menu_ad']);
+
+    $ayarkaydet = $db->prepare("UPDATE menu SET
+        menu_ad=:menu_ad,
+        menu_detay=:menu_detay,
+        menu_url=:menu_url,
+        menu_sira=:menu_sira,
+        menu_seourl=:menu_seourl,
+        menu_durum=:menu_durum
+        WHERE menu_id={$_POST['menu_id']}");
+
+    $update = $ayarkaydet->execute(array(
+        'menu_ad' => $_POST['menu_ad'],
+        'menu_detay' => $_POST['menu_detay'],
+        'menu_url' => $_POST['menu_url'],
+        'menu_sira' => $_POST['menu_sira'],
+        'menu_seourl' => $menu_seourl,
+        'menu_durum' => $_POST['menu_durum']
+    ));
+
+    if ($update) {
+        header("Location:../production/menu-duzenle.php?menu_id=$menu_id&durum=ok");
+    } else {
+        header("Location:../production/menu-duzenle.php?menu_id=$menu_id&durum=no");
+    }
+}
+
 
 // İLETİŞİM AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['iletisimayarkaydet'])) {
@@ -59,6 +139,7 @@ if (isset($_POST['iletisimayarkaydet'])) {
     }
 }
 
+
 // APİ AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['apiayarkaydet'])) {
 
@@ -80,6 +161,7 @@ if (isset($_POST['apiayarkaydet'])) {
         header("Location:../production/api-ayar.php?durum=no");
     }
 }
+
 
 // SOSYAL AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['sosyalayarkaydet'])) {
@@ -105,7 +187,8 @@ if (isset($_POST['sosyalayarkaydet'])) {
     }
 }
 
-// SOSYAL AYAR İŞLEMLERİ GÜNCELLEME
+
+// SMTP HABERLEŞME AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['mailayarkaydet'])) {
 
     $ayarkaydet = $db->prepare("UPDATE ayar SET
@@ -128,6 +211,7 @@ if (isset($_POST['mailayarkaydet'])) {
         header("Location:../production/mail-ayar.php?durum=no");
     }
 }
+
 
 // HAKKIMIZDA İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['hakkimizdakaydet'])) {
@@ -152,5 +236,30 @@ if (isset($_POST['hakkimizdakaydet'])) {
         header("Location:../production/hakkimizda.php?durum=ok");
     } else {
         header("Location:../production/hakkimizda.php?durum=no");
+    }
+}
+
+
+// KULLANICI İŞLEMLERİ GÜNCELLEME
+if (isset($_POST['kullaniciayarkaydet'])) {
+
+    $kullanici_id = $_POST['kullanici_id'];
+
+    $ayarkaydet = $db->prepare("UPDATE kullanici SET
+        kullanici_adsoyad=:kullanici_adsoyad,
+        kullanici_tc=:kullanici_tc,
+        kullanici_durum=:kullanici_durum
+        WHERE kullanici_id={$_POST['kullanici_id']}");
+
+    $update = $ayarkaydet->execute(array(
+        'kullanici_adsoyad' => $_POST['kullanici_adsoyad'],
+        'kullanici_tc' => $_POST['kullanici_tc'],
+        'kullanici_durum' => $_POST['kullanici_durum']
+    ));
+
+    if ($update) {
+        header("Location:../production/kullanici-duzenle.php?kullanici_id=$kullanici_id&durum=ok");
+    } else {
+        header("Location:../production/kullanici-duzenle.php?kullanici_id=$kullanici_id&durum=no");
     }
 }

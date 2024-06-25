@@ -1,13 +1,34 @@
 <?php
+ob_start();
+session_start();
+
 include '../netting/baglan.php';
 
 // BELİRLİ VERİLERİ SECMEK İCİN
+// AYAR TABLOSU
 $ayarsor = $db->prepare("SELECT * FROM ayar where ayar_id=:id");
 $ayarsor->execute(array(
     'id' => 0
 ));
 $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
 
+// KULLANICI TABLOSU
+$kullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_mail=:mail");
+$kullanicisor->execute(array(
+    'mail' => $_SESSION['kullanici_mail']
+));
+$say = $kullanicisor->rowCount();
+$kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
+
+
+// 1.Güvenlik Ayarı
+// if (!isset($_SESSION['kullanici_mail'])) {
+// }
+// 2.Güvenlik Ayarı (kimlik calma güvenligi)
+if ($say == 0) {
+    header("Location:login.php?durum=izinsiz");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +58,9 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+    <!--CKEDİTOR -->
+    <script src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
 </head>
@@ -58,8 +82,8 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
                             <img src="images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <span>Hoşgeldin</span>
+                            <h2><?php echo $kullanicicek['kullanici_adsoyad'] ?></h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -74,6 +98,8 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
 
                                 <li><a href="index.php"><i class="fa fa-home"></i> Anasayfa </a></li>
                                 <li><a href="hakkimizda.php"><i class="fa fa-info"></i> Hakkımızda </a></li>
+                                <li><a href="kullanici.php"><i class="fa fa-user"></i> Kullanıcılar </a></li>
+                                <li><a href="menu.php"><i class="fa fa-list"></i> Menüler </a></li>
                                 <li><a><i class="fa fa-cogs"></i> Site Ayarları <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="genel-ayar.php">Genel Ayarlar</a></li>
@@ -121,19 +147,13 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img src="images/img.jpg" alt=""><?php echo $kullanicicek['kullanici_adsoyad'] ?>
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Profile</a></li>
-                                    <li>
-                                        <a href="javascript:;">
-                                            <span class="badge bg-red pull-right">50%</span>
-                                            <span>Settings</span>
-                                        </a>
-                                    </li>
-                                    <li><a href="javascript:;">Help</a></li>
-                                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                    <li><a href="javascript:;"> Profile Bilgilerim</a></li>
+
+                                    <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Güvenli Cıkış</a></li>
                                 </ul>
                             </li>
 
