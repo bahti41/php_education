@@ -39,7 +39,7 @@ $menusor->execute();
               </small></h2>
             <div class="clearfix"></div>
             <div align="right">
-              <a href="kullanici-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
+              <a href="menu-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
             </div>
           </div>
           <div class="x_content">
@@ -50,7 +50,7 @@ $menusor->execute();
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>S. No"</th>
+                  <th>S.No</th>
                   <th>Menü Ad"</th>
                   <th>Menü Url</th>
                   <th>Manü Sıra</th>
@@ -63,9 +63,9 @@ $menusor->execute();
               <tbody>
 
                 <?php
-                $sayı = 0;
+                $say = 0;
                 while ($menucek = $menusor->fetch(PDO::FETCH_ASSOC)) {
-                  $say++; ?>
+                  $say++ ?>
 
                   <tr>
                     <td width="20"><?php echo $say ?></td>

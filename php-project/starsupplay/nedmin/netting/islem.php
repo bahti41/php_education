@@ -32,6 +32,46 @@ if (isset($_POST['admingiris'])) {
 }
 
 
+
+
+
+
+// TABLO EKLEME İŞLEMLERİ
+// MANÜ İŞLEMLERİ EKLE
+if (isset($_POST['menukaydet'])) {
+    $menu_seourl = seo($_POST['menu_ad']);
+
+    $ayarekle = $db->prepare("INSERT INTO menu SET
+        menu_ad=:menu_ad,
+        menu_detay=:menu_detay,
+        menu_url=:menu_url,
+        menu_sira=:menu_sira,
+        menu_seourl=:menu_seourl,
+        menu_durum=:menu_durum");
+
+    $insert = $ayarekle->execute(array(
+        'menu_ad' => $_POST['menu_ad'],
+        'menu_detay' => $_POST['menu_detay'],
+        'menu_url' => $_POST['menu_url'],
+        'menu_sira' => $_POST['menu_sira'],
+        'menu_seourl' => $menu_seourl,
+        'menu_durum' => $_POST['menu_durum']
+    ));
+
+    if ($insert) {
+        header("Location:../production/menu.php?durum=ok");
+        exit;
+    } else {
+        header("Location:../production/menu.php?durum=no");
+        exit;
+    }
+}
+
+
+
+
+
+
 // TABLO SİLME İŞLEMLERİ
 // KULLANICI İŞLEMLERİ SİLME
 if ($_GET['kullanicisil'] == "ok") {
@@ -46,9 +86,26 @@ if ($_GET['kullanicisil'] == "ok") {
     }
 }
 
+// MENÜ İŞLEMLERİ SİLME
+if ($_GET['menusil'] == "ok") {
+    $sil = $db->prepare("DELETE from menu where menu_id=:id");
+    $kontrol = $sil->execute(array(
+        'id' => $_GET['menu_id']
+    ));
+    if ($kontrol) {
+        header("Location:../production/menu.php?sil=ok");
+    } else {
+        header("Location:../production/menu.php?sil=no");
+    }
+}
+
+
+
+
+
+
 
 // TABLO GÜNCELLEME İŞLEMLERİ
-
 // GENEL AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['genelayarkaydet'])) {
 
@@ -77,7 +134,7 @@ if (isset($_POST['genelayarkaydet'])) {
 // MENÜ AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['menuayarkaydet'])) {
 
-    $menu_id = $POST['menu_id'];
+    $menu_id = $_POST['menu_id'];
 
     $menu_seourl = seo($_POST['menu_ad']);
 
@@ -104,6 +161,7 @@ if (isset($_POST['menuayarkaydet'])) {
     } else {
         header("Location:../production/menu-duzenle.php?menu_id=$menu_id&durum=no");
     }
+    exit;
 }
 
 

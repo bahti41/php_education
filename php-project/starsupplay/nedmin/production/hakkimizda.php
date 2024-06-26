@@ -92,7 +92,7 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
 
                             <!-- HAKKIMIZDA İCERİK     -->
                             <!-- CKEDİTOR (HAKKIMIZDA) -->
-                            <div class="from-group py-3">
+                            <div class="form-group py-3">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">İçerik<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">

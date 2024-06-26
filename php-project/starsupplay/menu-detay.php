@@ -1,11 +1,11 @@
 <?php
 include 'header.php';
 // BELİRLİ VERİLERİ SECMEK İCİN
-$hakkimizdasor = $db->prepare("SELECT * FROM hakkimizda where hakkimizda_id=:id");
-$hakkimizdasor->execute(array(
-    'id' => 0
+$menusor = $db->prepare("SELECT * FROM menu where menu_sef=:sef");
+$menusor->execute(array(
+    'sef' => $_GET['sef']
 ));
-$hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
+$menucek = $menusor->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -16,7 +16,7 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                 <div class="page-title-inner">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="bigtitle">Hakkımızda Sayfası</div>
+                            <div class="bigtitle">Menu Sayfası</div>
                         </div>
                     </div>
                 </div>
@@ -31,8 +31,8 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                 <div class="title">Tanıtım Videosu</div>
             </div>
 
-            <?php if (isset($hakkimizdacek['hakkimizda_video'])) : ?>
-                <iframe width="700" height="415" src="https://www.youtube.com/embed/<?php echo $hakkimizdacek['hakkimizda_video'] ?>" frameborder="0" allowfullscreen></iframe>
+            <?php if (isset($menucek['menu_video'])) : ?>
+                <iframe width="700" height="415" src="https://www.youtube.com/embed/<?php echo $menucek['menu_video'] ?>" frameborder="0" allowfullscreen></iframe>
             <?php else : ?>
                 <p>Video bulunamadı.</p>
             <?php endif; ?>
@@ -43,23 +43,23 @@ $hakkimizdacek = $hakkimizdasor->fetch(PDO::FETCH_ASSOC);
                 <div class="title">Vizyon</div>
             </div>
             <blockquote>
-                <?php echo $hakkimizdacek['hakkimizda_vizyon'] ?>
+                <?php echo $menucek['menu_vizyon'] ?>
             </blockquote>
 
             <div class="title-bg">
                 <div class="title">Misyon</div>
             </div>
             <blockquote>
-                <?php echo $hakkimizdacek['hakkimizda_misyon'] ?>
+                <?php echo $menucek['menu_misyon'] ?>
             </blockquote>
 
             <!--BAŞLIK İCERİK-->
             <div class="title-bg">
-                <div class="title"><?php echo $hakkimizdacek['hakkimizda_baslik'] ?></div>
+                <div class="title"><?php echo $menucek['menu_baslik'] ?></div>
             </div>
             <div class="page-content">
                 <p>
-                    <?php echo $hakkimizdacek['hakkimizda_icerik'] ?>
+                    <?php echo $menucek['menu_icerik'] ?>
                 </p>
             </div>
 
