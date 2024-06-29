@@ -1,4 +1,4 @@
-<?php 
+<?php
 ob_start();
 session_start();
 
@@ -82,5 +82,3 @@ function seo($str, $options = array())
     $str = trim($str, $options['delimiter']);
     return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
 }
-
-?>
