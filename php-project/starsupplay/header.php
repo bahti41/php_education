@@ -1,4 +1,7 @@
 <?php
+ob_start();
+session_start();
+
 include 'nedmin/netting/baglan.php';
 include 'nedmin/production/fonksiyon.php';
 
@@ -8,6 +11,14 @@ $ayarsor->execute(array(
     'id' => 0
 ));
 $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
+
+// KULLANICI VERİLERİ SECMEK İCİN
+$kullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_mail=:mail");
+$kullanicisor->execute(array(
+    'mail' => $_SESSION['userkullanicimail']
+));
+$say = $kullanicisor->rowCount();
+$kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -52,38 +63,56 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 col-md-4 main-logo">
-                        <a href="index.php"><img src="images\logo.png" alt="logo" class="logo img-responsive"></a>
+                        <a href="index.php"><img width="200" src="<?php echo $ayarcek['ayar_logo'] ?>" alt="logo" class="logo img-responsive"></a>
                     </div>
                     <div class="col-md-8">
                         <div class="pushright">
                             <div class="top">
-                                <a href="#" id="reg" class="btn btn-default btn-dark">Login<span>-- Or --</span>Register</a>
+
+                                <!-- KULLANICI BİLGİLERİ -->
+                                <?php
+                                if (!isset($_SESSION['userkullanicimail'])) {  ?>
+                                    <a href="#" id="reg" class="btn btn-default btn-dark">Giriş Yap<span>-- yada --</span>Kayıt Ol</a>
+                                <?php } else { ?>
+                                    <a href="#" id="reg" class="btn btn-default btn-dark">Hoşgeldin<span>--</span><?php echo  htmlspecialchars($kullanicicek['kullanici_adsoyad']) ?></a>
+                                <?php } ?>
+                                <!-- KULLANICI BİLGİLERİ BİTTİ -->
+
+
                                 <div class="regwrap">
                                     <div class="row">
                                         <div class="col-md-6 regform">
                                             <div class="title-widget-bg">
-                                                <div class="title-widget">Login</div>
+                                                <div class="title-widget">Kullanıcı Girişi</div>
                                             </div>
-                                            <form role="form">
+
+
+                                            <!-- KULLANİCİ GİŞİR FORMU -->
+
+                                            <form action="nedmin/netting/islem.php" method="POST" role="form">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="username" placeholder="Username">
+                                                    <input type="text" class="form-control" id="username" name="kullanici_mail" placeholder="Kullanıcı Adınızı(Mail adresiniz)">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" class="form-control" id="password" placeholder="password">
+                                                    <input type="password" class="form-control" id="password" name="kullanici_password" placeholder="Şifreniz">
                                                 </div>
                                                 <div class="form-group">
-                                                    <button class="btn btn-default btn-red btn-sm">Sign In</button>
+                                                    <button type="submit" name="kullanizigiris" class="btn btn-default btn-red btn-sm">Giriş Yap</button>
                                                 </div>
                                             </form>
+
+                                            <!-- KULLANİCİ GİŞİR FORMU BİTTİŞ -->
+
+
                                         </div>
                                         <div class="col-md-6">
                                             <div class="title-widget-bg">
-                                                <div class="title-widget">Register</div>
+                                                <div class="title-widget">Kayıt Ol</div>
                                             </div>
                                             <p>
-                                                New User? By creating an account you be able to shop faster, be up to date on an order's status...
+                                                Yeni Kullanıcımısın? Alışverişe Başlamak için hemen kayıt olmalısın!
                                             </p>
-                                            <button class="btn btn-default btn-yellow">Register Now</button>
+                                            <a href="register"><button class="btn btn-default btn-yellow">Kayıt Ol</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -207,6 +236,18 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
                                 <div class="clearfix"></div>
                             </div>
                         </div>
+
+                        <?php
+                        if (isset($_SESSION['userkullanicimail'])) {  ?>
+                            <!--small-nav -->
+                            <ul class="small-menu">
+                                <li><a href="hesabim.php?kullanici_id=<?php echo $kullanicicek['kullanici_id'] ?>" class="myacc">Hesap Bilgileri</a></li>
+                                <li><a href="siparislerim" class="myshop">Siparişlerim</a></li>
+                                <li><a href="logout.php" class="mycheck">Güvenli Cıkış</a></li>
+                            </ul>
+                            <!--small-nav -->
+                        <?php } ?>
+
                     </div>
                 </div>
             </div>
