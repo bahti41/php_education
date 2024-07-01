@@ -3,8 +3,8 @@
 include 'header.php';
 
 //BELİRTİLEN VERİLER CEKİLDİ
-$menusor = $db->prepare("SELECT * FROM menu order by menu_sira ASC");
-$menusor->execute();
+$urunsor = $db->prepare("SELECT * FROM urun order by urun_id DESC");
+$urunsor->execute();
 
 
 ?>
@@ -19,7 +19,7 @@ $menusor->execute();
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Menü Listeleme <small>
+            <h2>Ürün Listeleme <small>
 
                 <?php
                 if (isset($_GET['durum'])) {
@@ -39,7 +39,7 @@ $menusor->execute();
               </small></h2>
             <div class="clearfix"></div>
             <div align="right">
-              <a href="menu-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
+              <a href="urun-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
             </div>
           </div>
           <div class="x_content">
@@ -51,10 +51,10 @@ $menusor->execute();
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Menü Ad"</th>
-                  <th>Menü Url</th>
-                  <th>Manü Sıra</th>
-                  <th>Menü Durum</th>
+                  <th>Ürün Ad"</th>
+                  <th>Ürün Stok</th>
+                  <th>Ürün Fiyat</th>
+                  <th>Ürün Durum</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -64,18 +64,18 @@ $menusor->execute();
 
                 <?php
                 $say = 0;
-                while ($menucek = $menusor->fetch(PDO::FETCH_ASSOC)) {
+                while ($uruncek = $urunsor->fetch(PDO::FETCH_ASSOC)) {
                   $say++ ?>
 
                   <tr>
                     <td width="20"><?php echo $say ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_ad']) ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_url']) ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_sira']) ?></td>
+                    <td><?php echo htmlspecialchars($uruncek['urun_ad']) ?></td>
+                    <td><?php echo htmlspecialchars($uruncek['urun_stok']) ?></td>
+                    <td><?php echo htmlspecialchars($uruncek['urun_fiyat']) ?></td>
                     <td width="20">
                       <center>
                         <?php
-                        if ($menucek['menu_durum'] == 1) { ?>
+                        if ($uruncek['urun_durum'] == 1) { ?>
                           <button class="btn btn-success btn-xs">Aktif</button>
                         <?php } else { ?>
                           <button class="btn btn-danger btn-xs">Pasif</button>
@@ -85,12 +85,12 @@ $menusor->execute();
 
 
                     <td width="20">
-                      <center><a href="menu-duzenle.php?menu_id=<?php echo $menucek['menu_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
+                      <center><a href="urun-duzenle.php?urun_id=<?php echo $uruncek['urun_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
                     </td>
 
 
                     <td width="20">
-                      <center><a href="../netting/islem.php?menu_id=<?php echo $menucek['menu_id']; ?>&menusil=ok"><button class="btn btn-danger btn-xs">Sil</button></a></center>
+                      <center><a href="../netting/islem.php?urun_id=<?php echo $uruncek['urun_id']; ?>&urunsil=ok"><button class="btn btn-danger btn-xs">Sil</button></a></center>
                     </td>
                   </tr>
 

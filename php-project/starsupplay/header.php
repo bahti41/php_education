@@ -13,13 +13,14 @@ $ayarsor->execute(array(
 $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
 
 // KULLANICI VERİLERİ SECMEK İCİN
-$kullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_mail=:mail");
-$kullanicisor->execute(array(
-    'mail' => $_SESSION['userkullanicimail']
-));
-$say = $kullanicisor->rowCount();
-$kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
-
+if (isset($_SESSION['userkullanicimail'])) {
+    $kullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_mail=:mail");
+    $kullanicisor->execute(array(
+        'mail' => $_SESSION['userkullanicimail']
+    ));
+    $say = $kullanicisor->rowCount();
+    $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +102,7 @@ $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
                                                 </div>
                                             </form>
 
-                                            <!-- KULLANİCİ GİŞİR FORMU BİTTİŞ -->
+                                            <!-- KULLANİCİ GİRİŞ FORMU BİTTİŞ -->
 
 
                                         </div>
@@ -241,12 +242,17 @@ $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
                         if (isset($_SESSION['userkullanicimail'])) {  ?>
                             <!--small-nav -->
                             <ul class="small-menu">
-                                <li><a href="hesabim.php?kullanici_id=<?php echo $kullanicicek['kullanici_id'] ?>" class="myacc">Hesap Bilgileri</a></li>
+                                <li><a href="hesabim.php?kullanici_id=<?php echo htmlspecialchars($kullanicicek['kullanici_id']) ?>" class="myacc">Hesap Bilgileri</a></li>
                                 <li><a href="siparislerim" class="myshop">Siparişlerim</a></li>
                                 <li><a href="logout.php" class="mycheck">Güvenli Cıkış</a></li>
                             </ul>
                             <!--small-nav -->
                         <?php } ?>
+                        <ul class="small-menu">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
 
                     </div>
                 </div>

@@ -69,7 +69,7 @@ if (isset($_POST['kullanicikaydet'])) {
     $kullanici_passwordtwo = htmlspecialchars($_POST['kullanici_passwordtwo']);
 
     if ($kullanici_passwordone == $kullanici_passwordtwo) {
-        if ($kullanici_passwordone >= 6) {
+        if (strlen($kullanici_passwordone >= 6)) {
 
 
             // BAŞLANGIC
@@ -128,7 +128,7 @@ if (isset($_POST['kullanicikaydet'])) {
 
 
 // TABLO EKLEME İŞLEMLERİ
-// MENÜ İŞLEMLERİ EKLE
+// MENÜ İŞLEMLERİ EKLEME
 if (isset($_POST['menukaydet'])) {
     $menu_seourl = seo($_POST['menu_ad']);
 
@@ -160,7 +160,7 @@ if (isset($_POST['menukaydet'])) {
 
 
 
-// SLİDER İŞLEMLERİ EKLE
+// SLİDER İŞLEMLERİ EKLEME
 if (isset($_POST['sliderkaydet'])) {
     $uploads_dir = '../../dimg/slider';
     @$tmp_name = $_FILES['slider_resimyol']["tmp_name"];
@@ -193,6 +193,78 @@ if (isset($_POST['sliderkaydet'])) {
         exit;
     }
 }
+
+
+// KATEGORİ İŞLEMLERİ EKLEME
+if (isset($_POST['kategoriekle'])) {
+
+    $kategori_id = $_POST['kategori_id'];
+    $kategori_seourl = seo($_POST['kategori_ad']);
+
+    $ayarkaydet = $db->prepare("INSERT INTO kategori SET
+        kategori_ad=:kategori_ad,
+        kategori_sira=:kategori_sira,
+        kategori_seourl=:kategori_seourl,
+        kategori_durum=:kategori_durum
+       ");
+
+    $insert = $ayarkaydet->execute(array(
+        'kategori_ad' => $_POST['kategori_ad'],
+        'kategori_sira' => $_POST['kategori_sira'],
+        'kategori_seourl' => $kategori_seourl,
+        'kategori_durum' => $_POST['kategori_durum']
+
+    ));
+
+    if ($insert) {
+        header("Location:../production/kategori.php?durum=ok");
+        exit;
+    } else {
+        header("Location:../production/kategori.php?&durum=no");
+        exit;
+    }
+}
+
+// ÜRÜN İŞLEMLERİ EKELME
+if (isset($_POST['urunekleme'])) {
+
+    $urun_seourl = seo($_POST['urun_ad']);
+
+    $ayarkaydet = $db->prepare("INSERT INTO urun SET
+        kategori_id=:kategori_id,
+        urun_ad=:urun_ad,
+        urun_detay=:urun_detay,
+        urun_fiyat=:urun_fiyat,
+        urun_video=:urun_video,
+        urun_keyword=:urun_keyword,
+        urun_stok=:urun_stok,
+        urun_seourl=:urun_seourl,
+        urun_durum=:urun_durum
+       ");
+
+    $insert = $ayarkaydet->execute(array(
+        'kategori_id' => $_POST['kategori_id'],
+        'urun_ad' => $_POST['urun_ad'],
+        'urun_detay' => $_POST['urun_detay'],
+        'urun_fiyat' => $_POST['urun_fiyat'],
+        'urun_video' => $_POST['urun_video'],
+        'urun_keyword' => $_POST['urun_keyword'],
+        'urun_stok' => $_POST['urun_stok'],
+        'urun_seourl' => $urun_seourl,
+        'urun_durum' => $_POST['urun_durum']
+
+    ));
+
+    if ($insert) {
+        header("Location:../production/urun.php?durum=ok");
+        exit;
+    } else {
+        header("Location:../production/urun.php?&durum=no");
+        exit;
+    }
+}
+
+
 
 
 
@@ -275,6 +347,37 @@ if (isset($_GET['slidersil']) && $_GET['slidersil'] == "ok" && isset($_GET['slid
 }
 
 
+// KATEGORİ İŞLEMLERİ SİLME
+if (isset($_GET['kategorisil']) && $_GET['kategorisil'] == "ok" && isset($_GET['kategori_id'])) {
+    $sil = $db->prepare("DELETE from kategori where kategori_id=:id");
+    $kontrol = $sil->execute(array(
+        'id' => $_GET['kategori_id']
+    ));
+    if ($kontrol) {
+        header("Location:../production/kategori.php?sil=ok");
+        exit;
+    } else {
+        header("Location:../production/kategori.php?sil=no");
+        exit;
+    }
+}
+
+
+// ÜRÜN İŞLEMLERİ SİLME
+if (isset($_GET['urunsil']) && $_GET['urunsil'] == "ok" && isset($_GET['urun_id'])) {
+    $sil = $db->prepare("DELETE from urun where urun_id=:id");
+    $kontrol = $sil->execute(array(
+        'id' => $_GET['urun_id']
+    ));
+    if ($kontrol) {
+        header("Location:../production/urun.php?sil=ok");
+        exit;
+    } else {
+        header("Location:../production/urun.php?sil=no");
+        exit;
+    }
+}
+
 
 
 
@@ -306,6 +409,80 @@ if (isset($_POST['genelayarkaydet'])) {
         exit;
     }
 }
+
+
+// ÜRÜN AYAR İŞLEMLERİ GÜNCELLEME
+if (isset($_POST['urunduzenle'])) {
+
+    $urun_id = $_POST['urun_id'];
+
+    $urun_seourl = seo($_POST['urun_ad']);
+
+    $ayarkaydet = $db->prepare("UPDATE urun SET
+        kategori_id=:kategori_id,
+        urun_ad=:urun_ad,
+        urun_detay=:urun_detay,
+        urun_fiyat=:urun_fiyat,
+        urun_video=:urun_video,
+        urun_keyword=:urun_keyword,
+        urun_stok=:urun_stok,
+        urun_seourl=:urun_seourl,
+        urun_durum=:urun_durum
+       WHERE urun_id={$_POST['urun_id']}");
+
+    $update = $ayarkaydet->execute(array(
+        'kategori_id' => $_POST['kategori_id'],
+        'urun_ad' => $_POST['urun_ad'],
+        'urun_detay' => $_POST['urun_detay'],
+        'urun_fiyat' => $_POST['urun_fiyat'],
+        'urun_video' => $_POST['urun_video'],
+        'urun_keyword' => $_POST['urun_keyword'],
+        'urun_stok' => $_POST['urun_stok'],
+        'urun_seourl' => $urun_seourl,
+        'urun_durum' => $_POST['urun_durum']
+
+    ));
+
+    if ($update) {
+        header("Location:../production/urun-duzenle.php?durum=ok&urun_id=$urun_id");
+        exit;
+    } else {
+        header("Location:../production/urun-duzenle.php?&durum=no&urun_id=$urun_id");
+        exit;
+    }
+}
+
+
+// KATEGORİ AYAR İŞLEMLERİ GÜNCELLEME
+if (isset($_POST['kategoriayarkaydet'])) {
+
+    $kategori_id = $_POST['kategori_id'];
+    $kategori_seourl = seo($_POST['kategori_ad']);
+
+    $ayarkaydet = $db->prepare("UPDATE kategori SET
+        kategori_ad=:kategori_ad,
+        kategori_sira=:kategori_sira,
+        kategori_seourl=:kategori_seourl,
+        kategori_durum=:kategori_durum
+        WHERE kategori_id={$_POST['kategori_id']}");
+
+    $update = $ayarkaydet->execute(array(
+        'kategori_ad' => $_POST['kategori_ad'],
+        'kategori_sira' => $_POST['kategori_sira'],
+        'kategori_seourl' => $kategori_seourl,
+        'kategori_durum' => $_POST['kategori_durum']
+
+    ));
+
+    if ($update) {
+        header("Location:../production/kategori-duzenle.php?durum=ok&kategori_id=$kategori_id");
+        exit;
+    } else {
+        header("Location:../production/kategori-duzenle.php?&durum=no&kategori_id=$kategori_id");
+        exit;
+    }
+}
+
 
 
 
@@ -552,6 +729,7 @@ if (isset($_POST['kullaniciadminkaydet'])) {
     exit;
 }
 
+
 // KULLANICI İŞLEMLERİ GÜNCELLEME(KULLANICI)
 if (isset($_POST['kullanicihesapkaydet'])) {
 
@@ -582,6 +760,10 @@ if (isset($_POST['kullanicihesapkaydet'])) {
     }
     exit;
 }
+
+
+
+
 
 
 

@@ -3,8 +3,8 @@
 include 'header.php';
 
 //BELİRTİLEN VERİLER CEKİLDİ
-$menusor = $db->prepare("SELECT * FROM menu order by menu_sira ASC");
-$menusor->execute();
+$kategorisor = $db->prepare("SELECT * FROM kategori order by kategori_sira ASC");
+$kategorisor->execute();
 
 
 ?>
@@ -19,7 +19,7 @@ $menusor->execute();
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Menü Listeleme <small>
+            <h2>Kategori Listeleme <small>
 
                 <?php
                 if (isset($_GET['durum'])) {
@@ -39,7 +39,7 @@ $menusor->execute();
               </small></h2>
             <div class="clearfix"></div>
             <div align="right">
-              <a href="menu-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
+              <a href="kategori-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
             </div>
           </div>
           <div class="x_content">
@@ -51,10 +51,9 @@ $menusor->execute();
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Menü Ad"</th>
-                  <th>Menü Url</th>
-                  <th>Manü Sıra</th>
-                  <th>Menü Durum</th>
+                  <th>Kategori Ad"</th>
+                  <th>Kategori Sıra</th>
+                  <th>Kategori Durum</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -64,18 +63,17 @@ $menusor->execute();
 
                 <?php
                 $say = 0;
-                while ($menucek = $menusor->fetch(PDO::FETCH_ASSOC)) {
+                while ($kategoricek = $kategorisor->fetch(PDO::FETCH_ASSOC)) {
                   $say++ ?>
 
                   <tr>
                     <td width="20"><?php echo $say ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_ad']) ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_url']) ?></td>
-                    <td><?php echo htmlspecialchars($menucek['menu_sira']) ?></td>
+                    <td><?php echo htmlspecialchars($kategoricek['kategori_ad']) ?></td>
+                    <td><?php echo htmlspecialchars($kategoricek['kategori_sira']) ?></td>
                     <td width="20">
                       <center>
                         <?php
-                        if ($menucek['menu_durum'] == 1) { ?>
+                        if ($kategoricek['kategori_durum'] == 1) { ?>
                           <button class="btn btn-success btn-xs">Aktif</button>
                         <?php } else { ?>
                           <button class="btn btn-danger btn-xs">Pasif</button>
@@ -85,12 +83,12 @@ $menusor->execute();
 
 
                     <td width="20">
-                      <center><a href="menu-duzenle.php?menu_id=<?php echo $menucek['menu_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
+                      <center><a href="kategori-duzenle.php?kategori_id=<?php echo $kategoricek['kategori_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
                     </td>
 
 
                     <td width="20">
-                      <center><a href="../netting/islem.php?menu_id=<?php echo $menucek['menu_id']; ?>&menusil=ok"><button class="btn btn-danger btn-xs">Sil</button></a></center>
+                      <center><a href="../netting/islem.php?kategori_id=<?php echo $kategoricek['kategori_id']; ?>&kategorisil=ok"><button class="btn btn-danger btn-xs">Sil</button></a></center>
                     </td>
                   </tr>
 
