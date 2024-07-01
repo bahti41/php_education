@@ -427,6 +427,7 @@ if (isset($_POST['urunduzenle'])) {
         urun_keyword=:urun_keyword,
         urun_stok=:urun_stok,
         urun_seourl=:urun_seourl,
+        urun_onecikar=:urun_onecikar,
         urun_durum=:urun_durum
        WHERE urun_id={$_POST['urun_id']}");
 
@@ -438,6 +439,7 @@ if (isset($_POST['urunduzenle'])) {
         'urun_video' => $_POST['urun_video'],
         'urun_keyword' => $_POST['urun_keyword'],
         'urun_stok' => $_POST['urun_stok'],
+        'urun_onecikar' => $_POST['urun_onecikar'],
         'urun_seourl' => $urun_seourl,
         'urun_durum' => $_POST['urun_durum']
 

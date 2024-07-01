@@ -49,6 +49,7 @@ if (isset($_SESSION['userkullanicimail'])) {
     <link rel="stylesheet" href="css\owl.carousel.css">
     <link rel="stylesheet" href="css\owl.transitions.css">
 
+    <link rel="stylesheet" type="text/css" href="js\product\jquery.fancybox.css?v=2.1.5" media="screen">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
