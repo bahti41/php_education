@@ -17,6 +17,14 @@ if ($say == 0) {
 
 ?>
 
+
+<?php
+if (isset($_GET['durum']) && $_GET['durum'] === 'ok') { ?>
+    <script type="text/javascript">
+        alert("Yorum Başarıyla Eklendi....");
+    </script>
+<?php } ?>
+
 <div class="container">
     <div class="clearfix"></div>
     <div class="lines"></div>
@@ -97,98 +105,121 @@ if ($say == 0) {
 
             <div class="tab-review">
                 <ul id="myTab" class="nav nav-tabs shop-tab">
-                    <li class="active"><a href="#desc" data-toggle="tab">Acıklama</a></li>
-                    <li class=""><a href="#rev" data-toggle="tab">Yorumlar</a></li>
+
+                    <li <?php if (!isset($_GET['durum']) || $_GET['durum'] != 'ok') {
+                            echo 'class="active"';
+                        } ?>>
+                        <a href="#desc" data-toggle="tab">Açıklama</a>
+                    </li>
+                    <li <?php if (isset($_GET['durum']) && $_GET['durum'] == 'ok') {
+                            echo 'class="active"';
+                        } ?>>
+                        <a href="#rev" data-toggle="tab">Yorumlar</a>
+                    </li>
+
+
                     <li class=""><a href="#video" data-toggle="tab">Ürün Video</a></li>
                 </ul>
+
                 <div id="myTabContent" class="tab-content shop-tab-ct">
-                    <div class="tab-pane fade active in" id="desc">
+                    <div class="tab-pane fade <?php if (!isset($_GET['durum']) || $_GET['durum'] != 'ok') {
+                                                    echo 'active in';
+                                                } ?>" id="desc">
                         <p>
-                            <span><?php echo $uruncek['urun_detay'] ?>
+                            <span><?php echo $uruncek['urun_detay']; ?></span>
                         </p>
                     </div>
-                    <div class="tab-pane fade" id="rev">
-
-                        <!--yorum -->
-                        <p class="dash">
-                            <span>Jhon Doe</span> (11/25/2012)<br><br>
-                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse.
-                        </p>
-                        <!--yorum -->
-
-                        <h4>Yorum Yazın</h4>
-
-                        <?php if (isset($_SESSION['userkullanicimail'])) { ?>
-                            <form role="form">
-                                <div class="form-group">
-                                    <textarea class="form-control" placeholder="Yorumunuzu buraya yazınız." id="text"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-default btn-red btn-sm">Gönder</button>
-                            </form>
-                        <?php } else { ?>
-                            Yorum yazabilmeniz icin <a style="color:blue" href="register.php">Kayıt</a> olmalı yada üyemizseniz giriş yaplamasınız...
-                        <?php } ?>
-
-
-
-
+                    <div class="tab-pane fade <?php if (isset($_GET['durum']) && $_GET['durum'] == 'ok') {
+                                                    echo 'active in';
+                                                } ?>" id="rev">
+                        <!-- Yorumlar içeriği buraya gelecek -->
                     </div>
-                    <div class="tab-pane fade" id="video">
-                        <p>
-                            <?php
-                            if (strlen($uruncek['urun_video'] > 0)) { ?>
-                                <iframe width="500" height="315" src="https://www.youtube.com/embed/<?php echo $uruncek['urun_video'] ?>" frameborder="0" allowfullscreen></iframe>
-                            <?php  } else {
-                                echo 'Bu Ürüne Video eklenmemiştir..';
-                            }
-                            ?>
 
-                        </p>
-                    </div>
+                    <!--yorum -->
+                    <p class="dash">
+                        <span>Jhon Doe</span> (11/25/2012)<br><br>
+                        Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse.
+                    </p>
+                    <!--yorum -->
+
+                    <h4>Yorum Yazın</h4>
+
+                    <?php if (isset($_SESSION['userkullanicimail'])) { ?>
+                        <form action="nedmin/netting/islem.php" method="POST" role="form">
+
+
+
+                            <div class="form-group">
+                                <textarea name="yorum_detay" class="form-control" placeholder="Yorumunuzu buraya yazınız." id="text"></textarea>
+                            </div>
+                            <input type="hidden" name="gelenurlgonder" value="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "" . $_SERVER['REQUEST_URI'] . "" ?>">
+                            <input type="hidden" name="kullanici_id" value="<?php echo $kullanicicek['kullanici_id'] ?>">
+                            <button type="submit" name="yorumgonder" class="btn btn-default btn-red btn-sm">Gönder</button>
+                        </form>
+                    <?php } else { ?>
+                        Yorum yazabilmeniz icin <a style="color:blue" href="register.php">Kayıt</a> olmalı yada üyemizseniz giriş yaplamasınız...
+                    <?php } ?>
+
+
+
+
+                </div>
+                <div class="tab-pane fade" id="video">
+                    <p>
+                        <?php
+                        if (strlen($uruncek['urun_video'] > 0)) { ?>
+                            <iframe width="500" height="315" src="https://www.youtube.com/embed/<?php echo $uruncek['urun_video'] ?>" frameborder="0" allowfullscreen></iframe>
+                        <?php  } else {
+                            echo 'Bu Ürüne Video eklenmemiştir..';
+                        }
+                        ?>
+
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <div id="title-bg">
-                <div class="title">Benzer Ürünler</div>
-            </div>
-            <div class="row prdct"><!--Products-->
+        <div id="title-bg">
+            <div class="title">Benzer Ürünler</div>
+        </div>
+        <div class="row prdct"><!--Products-->
 
-                <?php
+            <?php
 
-                $kategori_id = $uruncek['kategori_id'];
+            $kategori_id = $uruncek['kategori_id'];
 
-                $urunaltsor = $db->prepare("SELECT * FROM urun WHERE kategori_id=:kategori_id order by rand() limit 3");
-                $urunaltsor->execute(array(
-                    'kategori_id' => $kategori_id
-                ));
+            $urunaltsor = $db->prepare("SELECT * FROM urun WHERE kategori_id=:kategori_id order by rand() limit 3");
+            $urunaltsor->execute(array(
+                'kategori_id' => $kategori_id
+            ));
 
-                while ($urunaltcek = $urunaltsor->fetch(PDO::FETCH_ASSOC)) {
+            while ($urunaltcek = $urunaltsor->fetch(PDO::FETCH_ASSOC)) {
 
-                ?>
-                    <div class="col-md-4">
-                        <div class="productwrap">
-                            <div class="pr-img">
-                                <div class="hot"></div>
-                                <a href="urun-<?= seo($urunaltcek['urun_ad']) . '-' . $urunaltcek['urun_id'] ?>"><img src="images\sample-3.jpg" alt="" class="img-responsive"></a>
-                                <div class="pricetag on-sale">
-                                    <div class="inner on-sale"><span class="onsale"><span class="oldprice"><?php echo $urunaltcek['urun_fiyat'] * 1.5 ?>TL</span><?php echo $urunaltcek['urun_fiyat'] ?>TL</span></div>
-                                </div>
+            ?>
+                <div class="col-md-4">
+                    <div class="productwrap">
+                        <div class="pr-img">
+                            <div class="hot"></div>
+                            <a href="urun-<?= seo($urunaltcek['urun_ad']) . '-' . $urunaltcek['urun_id'] ?>"><img src="images\sample-3.jpg" alt="" class="img-responsive"></a>
+                            <div class="pricetag on-sale">
+                                <div class="inner on-sale"><span class="onsale"><span class="oldprice"><?php echo $urunaltcek['urun_fiyat'] * 1.5 ?>TL</span><?php echo $urunaltcek['urun_fiyat'] ?>TL</span></div>
                             </div>
-                            <span class="smalltitle"><a href="product.htm"><?php echo $urunaltcek['urun_ad'] ?></a></span>
-                            <span class="smalldesc">STOK : <?php echo $urunaltcek['urun_stok'] ?></span>
                         </div>
+                        <span class="smalltitle"><a href="product.htm"><?php echo $urunaltcek['urun_ad'] ?></a></span>
+                        <span class="smalldesc">STOK : <?php echo $urunaltcek['urun_stok'] ?></span>
                     </div>
+                </div>
 
-                <?php } ?>
+            <?php } ?>
 
-            </div><!--Products-->
-            <div class="spacer"></div>
-        </div><!--Main content-->
+        </div><!--Products-->
+        <div class="spacer"></div>
+    </div><!--Main content-->
 
-        <?php
-        include 'sidebar.php';
-        ?>
-    </div>
+    <?php
+    include 'sidebar.php';
+    ?>
+</div>
 </div>
 
 <?php

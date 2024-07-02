@@ -5,7 +5,33 @@ session_start();
 include 'baglan.php';
 include '../production/fonksiyon.php';
 
-// GİRİŞ CIKIŞ İŞLEMLERİ
+// GİRİŞ CIKIŞ İŞLEMLERİ VE YORUM
+// YORUM GÖNDERME İŞLEMLERİ
+if (isset($_POST['yorumgonder'])) {
+
+    $gelen_url = $_POST['gelenurlgonder'];
+
+    $ayarekle = $db->prepare("INSERT INTO yorum SET
+        yorum_detay=:yorum_detay,
+        kullanici_id=:kullanici_id
+        ");
+
+    $insert = $ayarekle->execute(array(
+        'yorum_detay' => $_POST['yorum_detay'],
+        'kullanici_id' => $_POST['kullanici_id']
+    ));
+
+    if ($insert) {
+        header("Location:$gelen_url?durum=ok");
+        exit;
+    } else {
+        header("Location:$gelen_url?durum=no");
+        exit;
+    }
+}
+
+
+
 // ADMİN GİRİŞ 
 if (isset($_POST['admingiris'])) {
 
@@ -59,7 +85,7 @@ if (isset($_POST['kullanizigiris'])) {
 }
 
 
-// KULLANCI KAYDET İŞLEMLERİ
+// KULLANCI KAYIT GİRİŞ İŞLEMLERİ
 if (isset($_POST['kullanicikaydet'])) {
 
     $kullanici_mail = htmlspecialchars($_POST['kullanici_mail']);
