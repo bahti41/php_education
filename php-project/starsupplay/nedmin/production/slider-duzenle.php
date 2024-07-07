@@ -4,7 +4,15 @@ session_start();
 
 include 'header.php';
 
+if (!isset($_GET['slider_id']) || empty($_GET['slider_id'])) {
+    // Eğer slider_id yoksa veya boşsa, hata mesajı verin veya yönlendirin
+    echo "Slider ID belirtilmedi.";
+    exit;
+}
+
+
 // Slider TABLOSU
+
 $slidersor = $db->prepare("SELECT * from slider where slider_id=:id");
 $slidersor->execute(array(
     'id' => $_GET['slider_id']
@@ -12,6 +20,12 @@ $slidersor->execute(array(
 
 $slidercek = $slidersor->fetch(PDO::FETCH_ASSOC);
 
+
+if (!$slidercek) {
+    // Eğer $slidercek boş ise (false dönerse), hata mesajı verin veya yönlendirin
+    echo "Slider bulunamadı.";
+    exit;
+}
 
 ?>
 <!-- page content -->
@@ -42,7 +56,26 @@ $slidercek = $slidersor->fetch(PDO::FETCH_ASSOC);
                     </div>
                     <div class="x_content">
                         <br />
-                        <form action="../netting/islem.php" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                        <form action="../netting/islem.php" method="POST" enctype="multipart/form-data" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                            <!-- YÜKLÜ RESİM    -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Yüklü Resim<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <img width="300" src="../../<?php echo $slidercek['slider_resimyol']; ?>">
+                                </div>
+                            </div>
+
+                            <!-- RESİM YÜKLE    -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Resim Seç<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="file" id="first-name" name="slider_resimyol" class="form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
 
                             <!-- SLİDER AD    -->
                             <div class="form-group">

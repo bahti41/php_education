@@ -5,7 +5,7 @@ session_start();
 include 'baglan.php';
 include '../production/fonksiyon.php';
 
-// GİRİŞ CIKIŞ İŞLEMLERİ VE YORUM
+// GİRİŞ, CIKIŞ, SEPET VE YORUM  İŞLEMLERİ
 // YORUM GÖNDERME İŞLEMLERİ
 if (isset($_POST['yorumgonder'])) {
 
@@ -13,12 +13,14 @@ if (isset($_POST['yorumgonder'])) {
 
     $ayarekle = $db->prepare("INSERT INTO yorum SET
         yorum_detay=:yorum_detay,
-        kullanici_id=:kullanici_id
+        kullanici_id=:kullanici_id,
+        urun_id=:urun_id
         ");
 
     $insert = $ayarekle->execute(array(
         'yorum_detay' => $_POST['yorum_detay'],
-        'kullanici_id' => $_POST['kullanici_id']
+        'kullanici_id' => $_POST['kullanici_id'],
+        'urun_id' => $_POST['urun_id']
     ));
 
     if ($insert) {
@@ -26,6 +28,31 @@ if (isset($_POST['yorumgonder'])) {
         exit;
     } else {
         header("Location:$gelen_url?durum=no");
+        exit;
+    }
+}
+
+
+// SEPET GÖNDERME İŞLEMLERİ
+if (isset($_POST['sepeteekle'])) {
+
+    $ayarekle = $db->prepare("INSERT INTO sepet SET
+        urun_adet=:urun_adet,
+        kullanici_id=:kullanici_id,
+        urun_id=:urun_id
+        ");
+
+    $insert = $ayarekle->execute(array(
+        'urun_adet' => $_POST['urun_adet'],
+        'kullanici_id' => $_POST['kullanici_id'],
+        'urun_id' => $_POST['urun_id']
+    ));
+
+    if ($insert) {
+        header("Location:../../sepet?durum=ok");
+        exit;
+    } else {
+        header("Location:../../sepet?durum=no");
         exit;
     }
 }
@@ -517,28 +544,75 @@ if (isset($_POST['kategoriayarkaydet'])) {
 // SLİDER AYAR İŞLEMLERİ GÜNCELLEME
 if (isset($_POST['sliderayarguncelle'])) {
 
-    $slider_id = $_POST['slider_id'];
+    if (
+        $_FILES['slider_resimyol']["size"] > 0
+    ) {
 
-    $sliderkaydet = $db->prepare("UPDATE slider SET
-        slider_ad=:slider_ad,
-        slider_sira=:slider_sira,
-        slider_link=:slider_link,
-        slider_durum=:slider_durum
-        WHERE slider_id={$_POST['slider_id']}");
+        $uploads_dir = '../../dimg/slider';
+        $tmp_name = $_FILES['slider_resimyol']["tmp_name"];
+        $name = $_FILES['slider_resimyol']["name"];
+        $benzersizsayi1 = rand(20000, 32000);
+        $benzersizsayi2 = rand(20000, 32000);
+        $benzersizsayi3 = rand(20000, 32000);
+        $benzersizsayi4 = rand(20000, 32000);
+        $benzersizad = $benzersizsayi1 . $benzersizsayi2 . $benzersizsayi3 . $benzersizsayi4;
+        $refimgyol = substr($uploads_dir, 6) . "/" . $benzersizad . $name;
+        move_uploaded_file($tmp_name, "$uploads_dir/$benzersizad$name");
 
-    $update = $sliderkaydet->execute(array(
-        'slider_ad' => $_POST['slider_ad'],
-        'slider_sira' => $_POST['slider_sira'],
-        'slider_link' => $_POST['slider_link'],
-        'slider_durum' => $_POST['slider_durum']
-    ));
+        $sliderkaydet = $db->prepare("UPDATE slider SET
+            slider_ad=:slider_ad,
+            slider_sira=:slider_sira,
+            slider_link=:slider_link,
+            slider_durum=:slider_durum,
+            slider_resimyol=:slider_resimyol
+            WHERE slider_id=:slider_id
+        ");
 
-    if ($update) {
-        header("Location:../production/slider-duzenle.php?slider_id=$slider_id&durum=ok");
-        exit;
+        $update = $sliderkaydet->execute(array(
+            'slider_ad' => $_POST['slider_ad'],
+            'slider_sira' => $_POST['slider_sira'],
+            'slider_link' => $_POST['slider_link'],
+            'slider_durum' => $_POST['slider_durum'],
+            'slider_resimyol' => $refimgyol,
+            'slider_id' => $_POST['slider_id']
+        ));
+        $slider_id = $_POST['slider_id'];
+
+        if ($update) {
+            $resimsilunlink = $_POST['eski_slider_resimyol'];
+            unlink("../../$resimsilunlink");
+
+            header("Location:../production/slider-duzenle.php?slider_id=$slider_id&durum=ok");
+            exit;
+        } else {
+            header("Location:../production/slider-duzenle.php?durum=no");
+            exit;
+        }
     } else {
-        header("Location:../production/slider-duzenle.php?slider_id=$slider_id&durum=no");
-        exit;
+        $duzenle = $db->prepare("UPDATE slider SET
+            slider_ad=:slider_ad,
+            slider_link=:slider_link,
+            slider_sira=:slider_sira,
+            slider_durum=:slider_durum
+            WHERE slider_id=:slider_id
+        ");
+        $update = $duzenle->execute(array(
+            'slider_ad' => $_POST['slider_ad'],
+            'slider_link' => $_POST['slider_link'],
+            'slider_sira' => $_POST['slider_sira'],
+            'slider_durum' => $_POST['slider_durum'],
+            'slider_id' => $_POST['slider_id']
+        ));
+
+        $slider_id = $_POST['slider_id'];
+
+        if ($update) {
+            header("Location:../production/slider-duzenle.php?slider_id=$slider_id&durum=ok");
+            exit;
+        } else {
+            header("Location:../production/slider-duzenle.php?durum=no");
+            exit;
+        }
     }
 }
 

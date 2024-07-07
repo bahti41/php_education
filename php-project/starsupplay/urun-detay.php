@@ -62,23 +62,24 @@ if (isset($_GET['durum']) && $_GET['durum'] === 'ok') { ?>
 
                         <div class="clearfixt"></div>
                         <hr>
-                        <div class="form-group">
-                            <label for="qty" class="col-sm-2 conteol-label">Adet</label>
-                            <div class="col-sm-4">
-                                <select class="form-control" id="qty">
-                                    <option>1
-                                    <option>2
-                                    <option>3
-                                    <option>4
-                                    <option>5
-                                </select>
-                            </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-default btn-red btn-sm"><span class="addchart"></span>Sepete Git</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
 
+
+                        <form action="nedmin/netting/islem.php" method="POST">
+                            <div class="form-group">
+                                <label for="qty" class="col-sm-2 conteol-label">Adet</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" value="1" name="urun_adet">
+                                </div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" name="kullanici_id" value="<?php echo $kullanicicek['kullanici_id'] ?>">
+                                    <input type="hidden" name="urun_id" value="<?php echo $uruncek['urun_id'] ?>">
+
+                                    <button type="submit" name="sepeteekle" class="btn btn-default btn-red btn-sm"><span class="addchart"></span>Sepete Git</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
 
                         <div class="sharing">
                             <div class="share-bt">
@@ -111,10 +112,22 @@ if (isset($_GET['durum']) && $_GET['durum'] === 'ok') { ?>
                         } ?>>
                         <a href="#desc" data-toggle="tab">Açıklama</a>
                     </li>
+
+                    <?php
+                    // KULLANICI TABLOSU
+                    $kullanici_id = $kullanicicek['kullanici_id'];
+                    $urun_id = $uruncek['urun_id'];
+
+                    $yorumsor = $db->prepare("SELECT * FROM yorum WHERE urun_id=:urun_id");
+                    $yorumsor->execute(array(
+                        'urun_id' => $urun_id
+                    ));
+                    ?>
+
                     <li <?php if (isset($_GET['durum']) && $_GET['durum'] == 'ok') {
                             echo 'class="active"';
                         } ?>>
-                        <a href="#rev" data-toggle="tab">Yorumlar</a>
+                        <a href="#rev" data-toggle="tab">Yorumlar (<?php echo $yorumsor->rowCount(); ?>)</a>
                     </li>
 
 
@@ -128,54 +141,82 @@ if (isset($_GET['durum']) && $_GET['durum'] === 'ok') { ?>
                         <p>
                             <span><?php echo $uruncek['urun_detay']; ?></span>
                         </p>
+                        <!-- Ürün detay içeriği buraya gelecek -->
                     </div>
+
                     <div class="tab-pane fade <?php if (isset($_GET['durum']) && $_GET['durum'] == 'ok') {
                                                     echo 'active in';
                                                 } ?>" id="rev">
                         <!-- Yorumlar içeriği buraya gelecek -->
-                    </div>
 
-                    <!--yorum -->
-                    <p class="dash">
-                        <span>Jhon Doe</span> (11/25/2012)<br><br>
-                        Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse.
-                    </p>
-                    <!--yorum -->
-
-                    <h4>Yorum Yazın</h4>
-
-                    <?php if (isset($_SESSION['userkullanicimail'])) { ?>
-                        <form action="nedmin/netting/islem.php" method="POST" role="form">
-
-
-
-                            <div class="form-group">
-                                <textarea name="yorum_detay" class="form-control" placeholder="Yorumunuzu buraya yazınız." id="text"></textarea>
-                            </div>
-                            <input type="hidden" name="gelenurlgonder" value="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "" . $_SERVER['REQUEST_URI'] . "" ?>">
-                            <input type="hidden" name="kullanici_id" value="<?php echo $kullanicicek['kullanici_id'] ?>">
-                            <button type="submit" name="yorumgonder" class="btn btn-default btn-red btn-sm">Gönder</button>
-                        </form>
-                    <?php } else { ?>
-                        Yorum yazabilmeniz icin <a style="color:blue" href="register.php">Kayıt</a> olmalı yada üyemizseniz giriş yaplamasınız...
-                    <?php } ?>
-
-
-
-
-                </div>
-                <div class="tab-pane fade" id="video">
-                    <p>
                         <?php
-                        if (strlen($uruncek['urun_video'] > 0)) { ?>
-                            <iframe width="500" height="315" src="https://www.youtube.com/embed/<?php echo $uruncek['urun_video'] ?>" frameborder="0" allowfullscreen></iframe>
-                        <?php  } else {
-                            echo 'Bu Ürüne Video eklenmemiştir..';
-                        }
+
+
+
+
+                        while ($yorumcek = $yorumsor->fetch(PDO::FETCH_ASSOC)) {
+
+                            $ykullanici_id = $yorumcek['kullanici_id'];
+                            // KULLANICI TABLOSU
+                            $ykullanicisor = $db->prepare("SELECT * FROM kullanici where kullanici_id=:id");
+                            $ykullanicisor->execute(array(
+                                'id' => $ykullanici_id
+                            ));
+                            $ykullanicicek = $ykullanicisor->fetch(PDO::FETCH_ASSOC);
                         ?>
 
-                    </p>
+                            <!--yorum -->
+                            <p class="dash">
+                                <span><?php echo $ykullanicicek['kullanici_adsoyad'] ?></span> (<?php echo $yorumcek['yorum_zaman'] ?>)<br><br>
+                                <?php echo $yorumcek['yorum_detay'] ?>
+                            </p>
+                            <!--yorum -->
+
+                        <?php } ?>
+
+
+                        <h4>Yorum Yazın</h4>
+
+                        <?php if (isset($_SESSION['userkullanicimail'])) { ?>
+                            <form action="nedmin/netting/islem.php" method="POST" role="form">
+
+
+
+                                <div class="form-group">
+                                    <textarea name="yorum_detay" class="form-control" placeholder="Yorumunuzu buraya yazınız." id="text"></textarea>
+                                </div>
+                                <input type="hidden" name="gelenurlgonder" value="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "" . $_SERVER['REQUEST_URI']  ?>">
+                                <input type="hidden" name="kullanici_id" value="<?php echo $kullanicicek['kullanici_id'] ?>">
+                                <input type="hidden" name="urun_id" value="<?php echo $uruncek['urun_id'] ?>">
+                                <button type="submit" name="yorumgonder" class="btn btn-default btn-red btn-sm">Gönder</button>
+                            </form>
+                        <?php } else { ?>
+                            Yorum yazabilmeniz icin <a style="color:blue" href="register.php">Kayıt</a> olmalı yada üyemizseniz giriş yaplamasınız...
+                        <?php } ?>
+                    </div>
+
+                    <div class="tab-pane fade" id="video">
+                        <p>
+
+                            <?php
+
+                            if (strlen($uruncek['urun_video'] > 0)) { ?>
+                                <iframe width="500" height="315" src="https://www.youtube.com/embed/<?php echo $uruncek['urun_video'] ?>" frameborder="0" allowfullscreen></iframe>
+                            <?php  } else {
+                                echo 'Bu Ürüne Video eklenmemiştir..';
+                            }
+                            ?>
+
+                        </p>
+                    </div>
+
                 </div>
+
+
+
+
+
+
             </div>
         </div>
 
