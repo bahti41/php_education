@@ -125,6 +125,7 @@ if (!$slidercek) {
 
 
                             <input type="hidden" name="slider_id" value="<?php echo $slidercek['slider_id'] ?>">
+                            <input type="hidden" name="slider_resimyol" value="<?php echo $slidercek['slider_resimyol'] ?>">
 
                             <div class="ln_solid"></div>
                             <div class="form-group">

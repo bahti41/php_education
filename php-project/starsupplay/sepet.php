@@ -76,7 +76,7 @@
 				</div> -->
 				<div class="total">Toplam Fiyat : <span class="bigprice"><?php echo $toplam_fiyat ?>TL</span></div>
 				<div class="clearfix"></div>
-				<a href="" class="btn btn-default btn-yellow">Ödeme Sayfası</a>
+				<a href="odeme.php" class="btn btn-default btn-yellow">Ödeme Sayfası</a>
 			</div>
 			<div class="clearfix"></div>
 		</div>

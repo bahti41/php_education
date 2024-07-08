@@ -237,7 +237,7 @@ if (isset($_SESSION['userkullanicimail'])) {
                                 </table>
                                 <br>
                                 <div class="btn-popcart">
-                                    <a href="checkout.htm" class="btn btn-default btn-red btn-sm">Ödeme Sayfası</a>
+                                    <a href="sepet.php" class="btn btn-default btn-red btn-sm">Sepeti Görüntüle</a>
                                 </div>
                                 <div class="popcart-tot">
                                     <p>

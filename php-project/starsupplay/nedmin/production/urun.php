@@ -54,6 +54,7 @@ $urunsor->execute();
                   <th>Ürün Ad"</th>
                   <th>Ürün Stok</th>
                   <th>Ürün Fiyat</th>
+                  <th>Öne Çıkar</th>
                   <th>Ürün Durum</th>
                   <th></th>
                   <th></th>
@@ -68,10 +69,34 @@ $urunsor->execute();
                   $say++ ?>
 
                   <tr>
-                    <td width="20"><?php echo $say ?></td>
-                    <td><?php echo htmlspecialchars($uruncek['urun_ad']) ?></td>
-                    <td><?php echo htmlspecialchars($uruncek['urun_stok']) ?></td>
-                    <td><?php echo htmlspecialchars($uruncek['urun_fiyat']) ?></td>
+
+                    <td width="20">
+                      <center><?php echo $say ?></center>
+                    </td>
+                    <td>
+                      <center><?php echo htmlspecialchars($uruncek['urun_ad']) ?></center>
+                    </td>
+                    <td>
+                      <center><?php echo htmlspecialchars($uruncek['urun_stok']) ?></center>
+                    </td>
+                    <td>
+                      <center><?php echo htmlspecialchars($uruncek['urun_fiyat']) ?></center>
+                    </td>
+                    <td>
+                      <center>
+                        <?php
+                        if ($uruncek['urun_onecikar'] == 0) { ?>
+                          <a href="../netting/islem.php?urun_id=<?php echo $uruncek['urun_id']; ?>&urun_onecikar=1&urun_ona=ok">
+                            <button class="btn btn-success btn-xs">Öne Çıkar</button>
+                          </a>
+                        <?php } elseif ($uruncek['urun_onecikar'] == 1) { ?>
+                          <a href="../netting/islem.php?urun_id=<?php echo $uruncek['urun_id']; ?>&urun_onecikar=0&urun_ona=ok">
+                            <button class="btn btn-warning btn-xs">Kaldır</button>
+                          </a>
+                        <?php } ?>
+
+                      </center>
+                    </td>
                     <td width="20">
                       <center>
                         <?php

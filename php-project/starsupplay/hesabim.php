@@ -38,11 +38,14 @@ $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
 			<?php }
 			}
 			?>
-			<div class="title-bg">
+			<br>
+
+			<div>
 				<center>
 					<div class="title">Kayıt Bilgileri</div>
 				</center>
 			</div>
+			<br>
 
 			<div class="col-md-6">
 
@@ -53,6 +56,17 @@ $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
 						</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="text" id="first-name" name="kullanici_tc" value="<?php echo $kullanicicek['kullanici_tc'] ?>" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+				</div>
+
+				<!-- KULLLANICI ADSOYAD -->
+				<div class="form-group dob">
+					<div class="col-sm-12">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Ad Soyad<span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<input type="text" id="first-name" name="kullanici_adsoyad" value="<?php echo $kullanicicek['kullanici_adsoyad'] ?>" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 				</div>
@@ -107,6 +121,8 @@ $kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
 			</div>
 			<input type="hidden" name="kullanici_id" value="<?php echo $kullanicicek['kullanici_id'] ?>">
 			<center><button type="submit" name="kullanicihesapkaydet" class="btn btn-default btn-red">Bilgilerimi Güncelle</button></center>
+			<br>
+			<center><a href="sifre-guncelle">Şifremi Unuttum</a></center>
 
 	</form>
 </div>

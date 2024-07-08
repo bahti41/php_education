@@ -3,8 +3,8 @@
 include 'header.php';
 
 //BELİRTİLEN VERİLER CEKİLDİ
-$slidersor = $db->prepare("SELECT * FROM slider");
-$slidersor->execute();
+$bankasor = $db->prepare("SELECT * FROM banka order by banka_id ASC");
+$bankasor->execute();
 
 
 ?>
@@ -19,7 +19,7 @@ $slidersor->execute();
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Slider Listeleme <small>
+            <h2>banka Listeleme <small>
 
                 <?php
                 if (isset($_GET['durum'])) {
@@ -39,7 +39,7 @@ $slidersor->execute();
               </small></h2>
             <div class="clearfix"></div>
             <div align="right">
-              <a href="slider-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
+              <a href="banka-ekle.php"><button class="btn btn-info btn-xs">YENİ EKLE</button></a>
             </div>
           </div>
           <div class="x_content">
@@ -51,11 +51,10 @@ $slidersor->execute();
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Resim"</th>
-                  <th>ad</th>
-                  <th>Url</th>
-                  <th>Sıra</th>
-                  <th>Durum</th>
+                  <th>Ad"</th>
+                  <th>Banka IBAN</th>
+                  <th>Banka Hesap Ad Soyad</th>
+                  <th>Banka Durum</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -65,19 +64,18 @@ $slidersor->execute();
 
                 <?php
                 $say = 0;
-                while ($slidercek = $slidersor->fetch(PDO::FETCH_ASSOC)) {
+                while ($bankacek = $bankasor->fetch(PDO::FETCH_ASSOC)) {
                   $say++ ?>
 
                   <tr>
                     <td width="20"><?php echo $say ?></td>
-                    <td><img width="200" src="../../<?php echo htmlspecialchars($slidercek['slider_resimyol']) ?>"></td>
-                    <td><?php echo htmlspecialchars($slidercek['slider_ad']) ?></td>
-                    <td><?php echo htmlspecialchars($slidercek['slider_link']) ?></td>
-                    <td><?php echo htmlspecialchars($slidercek['slider_sira']) ?></td>
+                    <td><?php echo htmlspecialchars($bankacek['banka_ad']) ?></td>
+                    <td><?php echo htmlspecialchars($bankacek['banka_iban']) ?></td>
+                    <td><?php echo htmlspecialchars($bankacek['banka_hesapadsoyad']) ?></td>
                     <td width="20">
                       <center>
                         <?php
-                        if ($slidercek['slider_durum'] == 1) { ?>
+                        if ($bankacek['banka_durum'] == 1) { ?>
                           <button class="btn btn-success btn-xs">Aktif</button>
                         <?php } else { ?>
                           <button class="btn btn-danger btn-xs">Pasif</button>
@@ -87,12 +85,12 @@ $slidersor->execute();
 
 
                     <td width="20">
-                      <center><a href="slider-duzenle.php?slider_id=<?php echo $slidercek['slider_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
+                      <center><a href="banka-duzenle.php?banka_id=<?php echo $bankacek['banka_id'] ?>"><button class="btn btn-primary btn-xs">Düzenle</button></a></center>
                     </td>
 
 
                     <td width="20">
-                      <center><a href="../netting/islem.php?slider_id=<?php echo $slidercek['slider_id']; ?>&slidersil=ok&slider_resimyol=<?php echo $slidercek['slider_resimyol'] ?>"><button class="btn btn-danger btn-xs">Sil</button></a></center>
+                      <center><a href="../netting/islem.php?banka_id=<?php echo $bankacek['banka_id']; ?>&bankasil=ok"><button class="btn btn-danger btn-xs">Sil</button></a></center>
                     </td>
                   </tr>
 
