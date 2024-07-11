@@ -8,9 +8,9 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="bigtitle">Sipariş Bilgilerim</div>
-							<p >Vermiş olduğunuz siparişlerinizi listeliyorsunuz</p>
+							<p>Vermiş olduğunuz siparişlerinizi listeliyorsunuz</p>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
@@ -28,42 +28,52 @@
 					<table class="table table-bordered chart">
 						<thead>
 							<tr>
-								<
 								<th>Sipariş No</th>
 								<th>Tarih</th>
 								<th>Tutar</th>
-								<th></th>
-								
+								<th>Ödeme Tip</th>
+								<th>Durum</th>
+
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
 
-								<td>Some Camera</td>
-								<td>PR - 2</td>
-								<td>225883</td>
-								
-								<td><a href=""><button class="btn btn-primary btn-xs">Detay</button></a></td>
-							</tr>
+							<?php
+							$kullanici_id = $kullanicicek['kullanici_id'];
+							$siparissor = $db->prepare("SELECT * FROM siparis where kullanici_id=:id");
+							$siparissor->execute(array(
+								'id' => $kullanici_id
+							));
+							while ($sipariscek = $siparissor->fetch(PDO::FETCH_ASSOC)) { ?>
 
+								<tr>
+
+									<td><?php echo $sipariscek['siparis_id'] ?></td>
+									<td><?php echo $sipariscek['siparis_zaman'] ?></td>
+									<td><?php echo $sipariscek['siparis_toplam'] ?></td>
+									<td><?php echo $sipariscek['siparis_tip'] ?></td>
+									<td><a href=""><button class="btn btn-primary btn-xs"><?php echo $sipariscek['siparis_odeme'] ?>Durum</button></a></td>
+
+								</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 				</div>
 
-				
 
 
-				
 
 
-				
 
 
-				
+
+
+
+
 			</div>
-			
+
 		</div>
-	</div>
+</div>
 </form>
 <div class="spacer"></div>
 </div>

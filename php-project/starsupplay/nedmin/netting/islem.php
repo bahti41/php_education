@@ -30,32 +30,64 @@ if (isset($_POST['bankasiparisekle'])) {
 
         //sipariş Bşaralı kaydedilirse
 
-        echo  $id = $db->lastInsertId();
+        echo  $siparis_id = $db->lastInsertId();
         echo "<hr>";
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo '<pre>';
-            print_r($_POST);
-            echo '</pre>';
 
-            if (isset($_POST['urun_id']) && !empty($_POST['urun_id'])) {
-                foreach ($_POST['urun_id'] as $urun_id) {
-                    echo 'urun_id: ' . htmlspecialchars($urun_id) . '<br>';
-                }
-            } else {
-                echo 'urun_id değeri gönderilmedi veya boş';
-            }
+        $kullanici_id = $_POST['kullanici_id'];
+        // KULLANICI TABLOSU
+        $sepetsor = $db->prepare("SELECT * FROM sepet where kullanici_id=:id");
+        $sepetsor->execute(array(
+            'id' => $kullanici_id
+        ));
+        while ($sepetcek = $sepetsor->fetch(PDO::FETCH_ASSOC)) {
 
-            echo 'başarılı';
+            $urun_id = $sepetcek['urun_id'];
+            $urun_adet = $sepetcek['urun_adet'];
 
-            // header("Location:../production/siparis.php?durum=ok");
-            exit;
-        } else {
-            echo 'başarısız';
-            // header("Location:../production/siparis.php?durum=no");
+            $urunsor = $db->prepare("SELECT * from urun where urun_id=:id");
+            $urunsor->execute(array(
+                'id' => $urun_id
+            ));
+
+            $uruncek = $urunsor->fetch(PDO::FETCH_ASSOC);
+
+            $urun_fiyat = $uruncek['urun_fiyat'];
+
+
+            $ayarekle = $db->prepare("INSERT INTO siparis_detay SET
+                siparis_id=:siparis_id,
+                urun_id=:urun_id,
+                urun_fiyat=:urun_fiyat,
+                urun_adet=:urun_adet
+                ");
+
+            $insert = $ayarekle->execute(array(
+                'siparis_id' => $siparis_id,
+                'urun_id' => $urun_id,
+                'urun_fiyat' => $urun_fiyat,
+                'urun_adet' => $urun_adet
+            ));
+        }
+        if ($insert) {
+
+            // Sipariş detay başarılıysa sepeti boşalt
+            $sil = $db->prepare("DELETE from sepet where kullanici_id=:kullanici_id");
+            $kontrol = $sil->execute(array(
+                'kullanici_id' => $kullanici_id
+            ));
+            header("Location:../../siparislerim.php?durum=ok");
             exit;
         }
+
+        // header("Location:../production/siparis.php?durum=ok");
+        exit;
+    } else {
+        echo 'başarısız';
+        // header("Location:../production/siparis.php?durum=no");
+        exit;
     }
 }
+
 
 
 // YORUM GÖNDERME İŞLEMLERİ
