@@ -60,6 +60,12 @@ if ($say == 0) {
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+    <!--dropzone.js -->
+    <link src="../vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+
+    <!--dropzone.js -->
+    <script src="../vendors/dropzone/dist/min/dropzone.min.js"></script>
+
     <!--CKEDİTOR -->
     <script src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
 

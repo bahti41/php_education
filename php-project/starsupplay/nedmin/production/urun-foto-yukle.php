@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include 'header.php';
 
@@ -50,20 +50,20 @@ include 'header.php';
                       <h2>Çoklu resim yükleme işlemleri</h2>
 
                       <div align="right" class="col-md-9">
-                     
-                        <a class="btn btn-success" href="urun-galeri.php?urun_id=<?php echo $_GET['urun_id'];?>"><i class="fa fa-plus" aria-hidden="true"></i> Yüklenen Resimleri Gör</a>
+
+                        <a class="btn btn-success" href="urun-galeri.php?urun_id=<?php echo $_GET['urun_id']; ?>"><i class="fa fa-plus" aria-hidden="true"></i> Yüklenen Resimleri Gör</a>
                       </div>
 
                       <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                       <p>Yüklenecek resimlerin bulunduğu klasöre giderek tamamını tek seferde seçerek yükleyebilirsiniz.</p>
-                      
 
-                      <form action="../netting/urungaleri.php" class="dropzone" >
+
+                      <form action="../netting/urungaleri.php" class="dropzone">
 
                         <input type="hidden" name="urun_id" value="<?php echo $_GET['urun_id'];  ?>">
-                        
+
                       </form>
 
                     </div>
