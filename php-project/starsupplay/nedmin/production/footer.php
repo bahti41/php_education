@@ -122,6 +122,22 @@
     });
 </script>
 <!-- /Datatables -->
+
+
+<script>
+    Dropzone.options.urunFotoForm = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 2, // MB
+        init: function() {
+            this.on("success", function(file, response) {
+                console.log("Başarılı yükleme:", response);
+            });
+            this.on("error", function(file, errorMessage) {
+                console.log("Hata:", errorMessage);
+            });
+        }
+    };
+</script>
 </body>
 
 </html>

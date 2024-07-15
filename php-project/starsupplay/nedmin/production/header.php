@@ -60,7 +60,7 @@ if ($say == 0) {
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-    <!--dropzone.js -->
+    <!-- dropzone.js -->
     <link src="../vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 
     <!--dropzone.js -->
@@ -79,7 +79,7 @@ if ($say == 0) {
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>StarSupply</span></a>
                     </div>
 
                     <div class="clearfix"></div>
