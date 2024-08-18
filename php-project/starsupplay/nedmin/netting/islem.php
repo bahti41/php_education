@@ -647,6 +647,29 @@ if (isset($_GET['bankasil']) && $_GET['bankasil'] == "ok" && isset($_GET['banka_
 }
 
 
+// COKLU ÜRÜN İŞLEMLERİ SİLME
+if (isset($_POST['urunfotosil'])) {
+    $urun_id = $_POST['urun_id'];
+
+    echo $checklist = $_POST['urunfotosec'];
+
+    foreach ($checklist as $list) {
+        $sil = $db->prepare("DELETE from urunfoto where urunfoto_id=:urunfoto_id");
+        $kontrol = $sil->execute(array(
+            'urunfoto_id' => $list
+        ));
+    }
+
+    if ($kontrol) {
+
+        header("Location:../production/urun-galeri.php?urun_id=$urun_id&durum=ok");
+        exit;
+    } else {
+        header("Location:../production/urun-galeri.php?urun_id=$urun_id&durum=no");
+        exit;
+    }
+}
+
 
 
 

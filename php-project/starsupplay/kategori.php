@@ -1,31 +1,8 @@
 ﻿<?php
+
 include 'header.php';
 
-if (isset($_GET['sef'])) {
-	$kategorisor = $db->prepare("SELECT * FROM kategori WHERE kategori_seourl=:seo");
-	$kategorisor->execute(array(
-		'seo' => $_GET['sef']
-	));
-	$kategoricek = $kategorisor->fetch(PDO::FETCH_ASSOC);
-	//EŞLEŞTİRİLECEK id ALINIYOR
-	$kategori_id = $kategoricek['kategori_id'];
-
-	$urunsor = $db->prepare("SELECT * FROM urun WHERE kategori_id=:kategori_id order by urun_id DESC");
-	$urunsor->execute(array(
-		'kategori_id' => $kategori_id
-	));
-
-	$say = $urunsor->rowCount();
-} else {
-	//BELİRTİLEN VERİLER CEKİLDİ
-	$urunsor = $db->prepare("SELECT * FROM urun order by urun_id DESC");
-	$urunsor->execute();
-}
-
-
-
 ?>
-
 
 <div class="container">
 	<div class="clearfix"></div>
@@ -36,13 +13,56 @@ if (isset($_GET['sef'])) {
 	<div class="row">
 		<div class="col-md-9"><!--Main content-->
 			<div class="title-bg">
-				<div class="title">Category - All products</div>
+				<div class="title">Ürünler</div>
 			</div>
-			<!--Products-->
-			<div class="row prdct">
+			<div class="row prdct"><!--Products-->
+
 				<?php
-				if ($say == 0) {
-					echo 'BU KATEGORİDE ÜRÜN BULUNAMDI...';
+
+				$sayfada = 6; // sayfada gösterilecek içerik miktarını belirtiyoruz.
+
+				// Eğer kategori seçildiyse, sadece o kategoriye ait ürünleri say
+				if (isset($_GET['sef'])) {
+					$kategorisor = $db->prepare("SELECT * FROM kategori WHERE kategori_seourl=:seourl");
+					$kategorisor->execute(array(
+						'seourl' => $_GET['sef']
+					));
+
+					$kategoricek = $kategorisor->fetch(PDO::FETCH_ASSOC);
+					$kategori_id = $kategoricek['kategori_id'];
+
+					// Kategoriye ait ürün sayısını al
+					$sorgu = $db->prepare("SELECT * FROM urun WHERE kategori_id=:kategori_id");
+					$sorgu->execute(array('kategori_id' => $kategori_id));
+				} else {
+					// Tüm ürünleri say
+					$sorgu = $db->prepare("SELECT * FROM urun");
+					$sorgu->execute();
+				}
+
+				$toplam_icerik = $sorgu->rowCount();
+				$toplam_sayfa = ceil($toplam_icerik / $sayfada);
+
+				// Eğer sayfa girilmemişse 1 varsayalım.
+				$sayfa = isset($_GET['sayfa']) ? (int) $_GET['sayfa'] : 1;
+				// Eğer 1'den küçük bir sayfa sayısı girildiyse 1 yapalım.
+				if ($sayfa < 1) $sayfa = 1;
+				// Toplam sayfa sayımızdan fazla yazılırsa en son sayfayı varsayalım.
+				if ($sayfa > $toplam_sayfa) $sayfa = $toplam_sayfa;
+
+				$limit = ($sayfa - 1) * $sayfada;
+
+				// Ürünleri getir
+				if (isset($_GET['sef'])) {
+					$urunsor = $db->prepare("SELECT * FROM urun WHERE kategori_id=:kategori_id ORDER BY urun_id DESC LIMIT $limit, $sayfada");
+					$urunsor->execute(array('kategori_id' => $kategori_id));
+				} else {
+					$urunsor = $db->prepare("SELECT * FROM urun ORDER BY urun_id DESC LIMIT $limit, $sayfada");
+					$urunsor->execute();
+				}
+
+				if ($toplam_icerik == 0) {
+					echo "Bu kategoride ürün bulunamadı";
 				}
 
 				while ($uruncek = $urunsor->fetch(PDO::FETCH_ASSOC)) {
@@ -64,24 +84,42 @@ if (isset($_GET['sef'])) {
 
 				<?php } ?>
 
-			</div>
-			<!--Products-->
+				<div align="right" class="col-md-12">
+					<ul class="pagination">
 
+						<?php
 
-			<!--pagination-->
-			<!-- <ul class="pagination shop-pag">
-				<li><a href="#"><i class="fa fa-caret-left"></i></a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-			</ul> -->
-			<!--pagination-->
+						$s = 0;
+
+						while ($s < $toplam_sayfa) {
+
+							$s++; ?>
+
+							<?php if ($s == $sayfa) { ?>
+
+								<li class="active">
+									<a href="kategori?sayfa=<?php echo $s; ?>"><?php echo $s; ?></a>
+								</li>
+
+							<?php } else { ?>
+
+								<li>
+									<a href="kategori?sayfa=<?php echo $s; ?>"><?php echo $s; ?></a>
+								</li>
+
+						<?php }
+						}
+
+						?>
+
+					</ul>
+				</div>
+
+			</div><!--Products-->
 
 		</div>
-		<?php include 'sidebar.php'; ?>
+
+		<?php include 'sidebar.php' ?>
 	</div>
 	<div class="spacer"></div>
 </div>

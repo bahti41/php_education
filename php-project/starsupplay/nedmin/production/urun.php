@@ -84,7 +84,7 @@ $urunsor->execute();
                       <center><?php echo htmlspecialchars($uruncek['urun_fiyat']) ?></center>
                     </td>
                     <td>
-                      <center><a href="urun-galeri.php?urum_id=<?php echo htmlspecialchars($uruncek['urun_id']) ?>"><button class="btn btn-success btn-xs">Resim İşlemleri</button></a></center>
+                      <center><a href="urun-galeri.php?urun_id=<?php echo htmlspecialchars($uruncek['urun_id']) ?>"><button class="btn btn-success btn-xs">Resim İşlemleri</button></a></center>
                     </td>
                     <td>
                       <center>

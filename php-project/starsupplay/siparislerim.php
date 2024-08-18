@@ -33,7 +33,7 @@
 								<th>Tutar</th>
 								<th>Ödeme Tip</th>
 								<th>Durum</th>
-
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -52,7 +52,8 @@
 									<td><?php echo $sipariscek['siparis_zaman'] ?></td>
 									<td><?php echo $sipariscek['siparis_toplam'] ?></td>
 									<td><?php echo $sipariscek['siparis_tip'] ?></td>
-									<td><a href=""><button class="btn btn-primary btn-xs"><?php echo $sipariscek['siparis_odeme'] ?>Durum</button></a></td>
+									<td>Durum</td>
+									<td><a href=""><button class="btn btn-primary btn-xs">Detay</button></a></td>
 
 								</tr>
 							<?php } ?>

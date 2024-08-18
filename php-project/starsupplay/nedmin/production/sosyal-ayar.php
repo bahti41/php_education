@@ -44,7 +44,7 @@ include 'header.php';
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tiwitter<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_tiwitter" value="<?php echo $ayarcek['ayar_tiwitter'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_twitter" value="<?php echo $ayarcek['ayar_twitter'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <!-- GİTHUB AYAR   -->
@@ -52,12 +52,12 @@ include 'header.php';
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Github<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="first-name" name="ayar_github" value="<?php echo $ayarcek['ayar_github'] ?>" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="first-name" name="ayar_google" value="<?php echo $ayarcek['ayar_google'] ?>" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <!-- YOUTUBE AYAR   -->
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">YOUTUBE<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Youtube<span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" id="first-name" name="ayar_youtube" value="<?php echo $ayarcek['ayar_youtube'] ?>" required="required" class="form-control col-md-7 col-xs-12">
